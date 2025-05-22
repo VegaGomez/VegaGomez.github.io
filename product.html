@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PequeMarket - Producto</title>
+  <link rel="stylesheet" href="style.css" />
+  <script defer src="script.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <button class="menu-btn" onclick="toggleMenu()">☰</button>
+    <h1>Producto</h1>
+    <a href="cart.html" class="cart-icon">🛒</a>
+  </header>
+
+  <div class="container">
+    <div class="product-image">
+      <!-- Imagen del producto -->
+      <img id="product-img" src="assets/producto-ejemplo.png" alt="Producto" />
+      <button class="favorite-btn">❤</button>
+    </div>
+
+    <div class="product-info">
+      <p><strong>Nombre:</strong> <span id="product-name">Osito Tierno</span></p>
+      <p><strong>Precio:</strong> $<span id="product-price">15.00</span></p>
+      <p><strong>Colores:</strong></p>
+      <div class="color-options">
+        <span class="color-dot red"></span>
+        <span class="color-dot yellow"></span>
+        <span class="color-dot blue"></span>
+      </div>
+      <p><strong>Descripción:</strong> <span id="product-desc">Peluche suave y adorable, ideal para regalar.</span></p>
+    </div>
+
+    <button class="btn secondary" onclick="agregarAlCarrito()">Añadir Carrito</button>
+  </div>
+
+  <!-- Menú lateral -->
+  <nav id="sideMenu" class="side-menu hidden">
+    <ul>
+      <li>Peluche</li>
+      <li>Juguetes educativos</li>
+      <li>Juegos de mesa</li>
+      <li>Cartas</li>
+      <li>Colores</li>
+    </ul>
+  </nav>
+
+  <script>
+    // Obtener parámetros de la URL
+    const urlParams = new URLSearchParams(window.location.search);
+    
+    // Actualizar información del producto
+    if(urlParams.has('name')) {
+      document.getElementById('product-name').textContent = decodeURIComponent(urlParams.get('name'));
+      document.title = `PequeMarket - ${decodeURIComponent(urlParams.get('name'))}`;
+    }
+    
+    if(urlParams.has('price')) {
+      document.getElementById('product-price').textContent = urlParams.get('price');
+    }
+    
+    if(urlParams.has('desc')) {
+      document.getElementById('product-desc').textContent = decodeURIComponent(urlParams.get('desc'));
+    }
+    
+    if(urlParams.has('img')) {
+      document.getElementById('product-img').src = `assets/${urlParams.get('img')}`;
+      document.getElementById('product-img').alt = decodeURIComponent(urlParams.get('name') || 'Producto');
+    }
+
+    // Función para añadir al carrito
+    function agregarAlCarrito() {
+      const name = document.getElementById('product-name').textContent;
+      const price = parseFloat(document.getElementById('product-price').textContent);
+      window.agregarAlCarrito(name, price);
+    }
+  </script>
+</body>
+</html>

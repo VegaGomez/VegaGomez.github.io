@@ -1,0 +1,408 @@
+/* Añade al principio del archivo */
+:root {
+  --primary-color: #42c7a4;
+  --secondary-color: #7ce0cb;
+  --white: #ffffff;
+  --text-dark: #333333;
+  --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --transition: all 0.3s ease;
+}
+
+/* Reemplaza el body existente */
+body {
+  font-family: 'Arial', sans-serif;
+  background: linear-gradient(to bottom right, var(--secondary-color), var(--primary-color));
+  color: var(--white);
+  min-height: 100vh;
+  line-height: 1.6;
+}
+
+/* Mejora el contenedor principal */
+.container {
+  width: 100%;
+  max-width: 100%;
+  padding: 15px;
+  margin: 0 auto;
+}
+
+@media (min-width: 768px) {
+  .container {
+    max-width: 750px;
+    padding: 20px;
+  }
+}
+
+/* Mejora la topbar */
+.topbar {
+  background-color: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(10px);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: var(--shadow);
+}
+
+/* Botones mejorados */
+.btn {
+  display: inline-block;
+  padding: 12px 24px;
+  background-color: var(--white);
+  color: var(--primary-color);
+  font-weight: bold;
+  text-decoration: none;
+  border-radius: 30px;
+  border: none;
+  cursor: pointer;
+  transition: var(--transition);
+  text-align: center;
+  font-size: 1rem;
+  box-shadow: var(--shadow);
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.btn.secondary {
+  background-color: var(--primary-color);
+  color: var(--white);
+  border: 2px solid var(--white);
+}
+
+/* Mejora en los productos */
+.product-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 15px;
+  margin: 20px 0;
+}
+
+.product-card, .product-item {
+  background-color: var(--white);
+  color: var(--text-dark);
+  padding: 15px;
+  border-radius: 15px;
+  box-shadow: var(--shadow);
+  transition: var(--transition);
+}
+
+.product-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.product-item:hover, .product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+/* Mejora en el menú lateral */
+.side-menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 80%;
+  max-width: 300px;
+  height: 100%;
+  background-color: var(--primary-color);
+  color: var(--white);
+  padding: 60px 20px 20px;
+  transition: transform 0.3s ease;
+  z-index: 1000;
+  box-shadow: 4px 0 15px rgba(0, 0, 0, 0.1);
+}
+
+.side-menu ul {
+  list-style: none;
+}
+
+.side-menu li {
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  font-size: 1.1rem;
+  transition: var(--transition);
+}
+
+.side-menu li:active {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Mejora en el carrito */
+.cart-item {
+  background-color: var(--white);
+  color: var(--text-dark);
+  border-radius: 12px;
+  padding: 15px;
+  margin-bottom: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: var(--shadow);
+}
+
+/* Efectos de carga suaves */
+* {
+  scroll-behavior: smooth;
+}
+
+/* Mejora en los inputs */
+input, .search {
+  width: 100%;
+  padding: 12px 15px;
+  margin: 10px 0;
+  border: none;
+  border-radius: 12px;
+  font-size: 1rem;
+  background-color: rgba(255, 255, 255, 0.9);
+  box-shadow: var(--shadow);
+  transition: var(--transition);
+}
+
+input:focus, .search:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(66, 199, 164, 0.3);
+}
+
+/* Mejora en la página de producto */
+.product-image img {
+  width: 100%;
+  max-width: 100%;
+  border-radius: 20px;
+  box-shadow: var(--shadow);
+  object-fit: cover;
+  aspect-ratio: 1/1;
+}
+
+.favorite-btn {
+  background: var(--white);
+  color: #ff4757;
+  box-shadow: var(--shadow);
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.container > * {
+  animation: fadeIn 0.5s ease forwards;
+}
+/* Añade estas reglas al final de tu CSS */
+
+/* Estilos para los enlaces de productos */
+.product-card, .product-item {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+.product-card {
+  padding: 15px;
+  text-align: center;
+}
+
+.product-card .product-price {
+  font-weight: bold;
+  color: var(--primary-color);
+  margin-top: 5px;
+}
+
+/* Efecto hover para tarjetas de producto */
+.product-card:hover, .product-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+/* Asegurar que el botón de añadir no sea clickeable cuando se hace clic en el item */
+.product-item .add-btn {
+  pointer-events: none;
+}
+/* Estilos para imágenes de productos */
+.product-thumbnail {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 12px 12px 0 0;
+  transition: transform 0.3s ease;
+}
+
+.product-thumbnail-small {
+  width: 70px;
+  height: 70px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-right: 15px;
+}
+
+.product-card {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  text-decoration: none;
+  color: var(--text-dark);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  transition: all 0.3s ease;
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+}
+
+.product-card:hover .product-thumbnail {
+  transform: scale(1.05);
+}
+
+.product-info {
+  padding: 15px;
+}
+
+.product-title {
+  font-size: 1rem;
+  margin-bottom: 8px;
+  color: var(--text-dark);
+}
+
+.price-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 5px;
+}
+
+.original-price {
+  text-decoration: line-through;
+  color: #999;
+  font-size: 0.9rem;
+}
+
+.current-price {
+  font-weight: bold;
+  color: var(--primary-color);
+  font-size: 1.2rem;
+}
+
+.discount-badge {
+  background-color: #ff4757;
+  color: white;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+
+/* Galería de producto */
+.product-gallery {
+  margin-bottom: 20px;
+}
+
+.main-image {
+  position: relative;
+  margin-bottom: 10px;
+}
+
+.main-image img {
+  width: 100%;
+  max-height: 400px;
+  object-fit: contain;
+  border-radius: 15px;
+  background: #f5f5f5;
+}
+
+.thumbnails {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+.thumbnail {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 8px;
+  cursor: pointer;
+  border: 2px solid transparent;
+  opacity: 0.7;
+  transition: all 0.2s ease;
+}
+
+.thumbnail:hover, .thumbnail.active {
+  opacity: 1;
+  border-color: var(--primary-color);
+}
+
+/* Selector de cantidad */
+.quantity-selector {
+  display: flex;
+  align-items: center;
+  margin: 20px 0;
+}
+
+.quantity-btn {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  border: 1px solid #ddd;
+  background: white;
+  font-size: 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.quantity {
+  margin: 0 15px;
+  font-size: 1.1rem;
+  min-width: 20px;
+  text-align: center;
+}
+
+/* Notificación */
+.notification {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--primary-color);
+  color: white;
+  padding: 12px 20px;
+  border-radius: 30px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.notification.show {
+  opacity: 1;
+}
+
+/* Info de entrega */
+.delivery-info {
+  margin-top: 20px;
+  padding-top: 15px;
+  border-top: 1px solid #eee;
+}
+
+.delivery-info p {
+  margin: 8px 0;
+  color: #555;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.delivery-info i {
+  color: var(--primary-color);
+}

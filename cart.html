@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PequeMarket - Carrito</title>
+  <link rel="stylesheet" href="style.css" />
+  <script defer src="script.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <button class="menu-btn" onclick="toggleMenu()">☰</button>
+    <h1>Carrito</h1>
+    <a href="explore.html" class="cart-icon">←</a>
+  </header>
+
+  <div class="container">
+    <div id="cart-items">
+      <!-- Los productos del carrito se mostrarán aquí -->
+    </div>
+
+    <div class="cart-summary">
+      <p><strong>Total:</strong> $<span id="cart-total">0.00</span></p>
+      <button class="btn secondary" onclick="checkout()">Confirmar Compra</button>
+    </div>
+  </div>
+
+  <!-- Menú lateral -->
+  <nav id="sideMenu" class="side-menu hidden">
+    <ul>
+      <li>Peluche</li>
+      <li>Juguetes educativos</li>
+      <li>Juegos de mesa</li>
+      <li>Cartas</li>
+      <li>Colores</li>
+    </ul>
+  </nav>
+</body>
+</html>
