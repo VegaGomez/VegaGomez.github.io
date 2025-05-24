@@ -8,11 +8,33 @@
   <script defer src="script.js"></script>
 </head>
 <body>
+  <!-- Botón flotante del carrito -->
+<a href="cart.html" class="floating-cart-btn">
+  <i class="fas fa-shopping-cart"></i>
+  <span id="floating-cart-badge" class="floating-cart-badge" style="display: none;">0</span>
+</a>
   <header class="topbar">
-    <button class="menu-btn" onclick="toggleMenu()">☰</button>
-    <h1>Carrito</h1>
-    <a href="explore.html" class="cart-icon">←</a>
-  </header>
+  <button class="menu-btn" onclick="toggleMenu()">
+    <i class="fas fa-bars"></i>
+  </button>
+  <!-- Resto del header -->
+</header>
+
+<!-- Menú lateral -->
+<nav id="sideMenu" class="side-menu">
+  <button class="close-btn" onclick="toggleMenu()">
+    <i class="fas fa-times"></i>
+  </button>
+  <ul>
+    <li><a href="explore.html"><i class="fas fa-home"></i> Inicio</a></li>
+    <li><a href="explore.html?category=peluches"><i class="fas fa-tshirt"></i> Peluches</a></li>
+    <li><a href="explore.html?category=educativos"><i class="fas fa-puzzle-piece"></i> Educativos</a></li>
+    <li><a href="explore.html?category=mesa"><i class="fas fa-chess"></i> Juegos de mesa</a></li>
+    <li><a href="cart.html"><i class="fas fa-shopping-cart"></i> Carrito</a></li>
+  </ul>
+</nav>
+
+<div id="overlay" class="overlay" onclick="toggleMenu()"></div>
 
   <div class="container">
     <div id="cart-items">

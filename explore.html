@@ -8,14 +8,39 @@
   <script defer src="script.js"></script>
 </head>
 <body>
+  <!-- Botón flotante del carrito -->
+<a href="cart.html" class="floating-cart-btn">
+  <i class="fas fa-shopping-cart"></i>
+  <span id="floating-cart-badge" class="floating-cart-badge" style="display: none;">0</span>
+</a>
   <header class="topbar">
-    <button class="menu-btn" onclick="toggleMenu()">☰</button>
-    <h1>Explorar</h1>
-    <a href="cart.html" class="cart-icon">🛒</a>
-  </header>
+  <button class="menu-btn" onclick="toggleMenu()">
+    <i class="fas fa-bars"></i>
+  </button>
+  <!-- Resto del header -->
+</header>
+
+<!-- Menú lateral -->
+<nav id="sideMenu" class="side-menu">
+  <button class="close-btn" onclick="toggleMenu()">
+    <i class="fas fa-times"></i>
+  </button>
+  <ul>
+    <li><a href="explore.html"><i class="fas fa-home"></i> Inicio</a></li>
+    <li><a href="explore.html?category=peluches"><i class="fas fa-tshirt"></i> Peluches</a></li>
+    <li><a href="explore.html?category=educativos"><i class="fas fa-puzzle-piece"></i> Educativos</a></li>
+    <li><a href="explore.html?category=mesa"><i class="fas fa-chess"></i> Juegos de mesa</a></li>
+    <li><a href="cart.html"><i class="fas fa-shopping-cart"></i> Carrito</a></li>
+  </ul>
+</nav>
+
+<div id="overlay" class="overlay" onclick="toggleMenu()"></div>
 
   <div class="container">
-    <input type="text" placeholder="Buscar productos..." class="search" />
+    <div class="search-container">
+  <input type="text" placeholder="Buscar juguetes..." class="search" id="searchInput" />
+  <button class="search-btn" onclick="searchProducts()"><i class="fas fa-search"></i></button>
+</div>
 
     <section>
       <h2>Ofertas</h2>
@@ -69,14 +94,15 @@
   </div>
 
   <!-- Menú lateral -->
-  <nav id="sideMenu" class="side-menu hidden">
-    <ul>
-      <li><i class="fas fa-tshirt"></i> Peluches</li>
-      <li><i class="fas fa-puzzle-piece"></i> Juguetes educativos</li>
-      <li><i class="fas fa-chess"></i> Juegos de mesa</li>
-      <li><i class="fas fa-cards"></i> Cartas</li>
-      <li><i class="fas fa-palette"></i> Colores</li>
-    </ul>
-  </nav>
+ <nav id="sideMenu" class="side-menu hidden">
+  <button class="close-menu" onclick="toggleMenu()">×</button>
+  <ul>
+    <li><a href="explore.html?category=peluches"><i class="fas fa-tshirt"></i> Peluches</a></li>
+    <li><a href="explore.html?category=educativos"><i class="fas fa-puzzle-piece"></i> Educativos</a></li>
+    <li><a href="explore.html?category=mesa"><i class="fas fa-chess"></i> Juegos de mesa</a></li>
+    <li><a href="explore.html?category=cartas"><i class="fas fa-cards"></i> Cartas</a></li>
+    <li><a href="explore.html?category=colores"><i class="fas fa-palette"></i> Colores</a></li>
+  </ul>
+</nav>
 </body>
 </html>
