@@ -1,60 +1,247 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>PequeMarket - Juguetes para Niños</title>
-  <link rel="stylesheet" href="style.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <meta charset="UTF-8">
+  <title>Tienda de Frutas y Verduras</title>
+  <style>
+    body { margin:0; font-family: Arial, sans-serif; background:#f7f7f7; }
+    header { background:#27ae60; color:white; padding:15px; text-align:center; }
+    nav { display:flex; justify-content:center; background:#2ecc71; flex-wrap:wrap; }
+    nav button { background:transparent; border:none; color:white; font-size:16px; padding:15px; cursor:pointer; transition:background 0.3s; }
+    nav button:hover { background:#27ae60; }
+    section { display:none; padding:20px; animation:fadeIn 0.5s; }
+    section.active { display:block; }
+    .subseccion { margin-bottom:30px; }
+    .productos { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:20px; }
+    .producto { background:white; border-radius:10px; box-shadow:0 2px 8px rgba(0,0,0,0.1); padding:15px; text-align:center; transition:transform 0.2s; }
+    .producto:hover { transform:scale(1.03); }
+    .producto img { width:100%; height:140px; object-fit:cover; border-radius:10px; }
+    .precio { color:#27ae60; font-weight:bold; }
+    button.agregar { margin-top:10px; padding:8px 12px; background:#27ae60; border:none; border-radius:6px; color:white; cursor:pointer; transition:background 0.3s; }
+    button.agregar:hover { background:#219150; }
+
+    /* Carrito */
+    #carrito { background:white; padding:20px; border-radius:10px; box-shadow:0 2px 8px rgba(0,0,0,0.1); }
+    #carrito ul { list-style:none; padding:0; }
+    #carrito ul li { margin:5px 0; }
+
+    /* Footer */
+    footer { background:#2ecc71; color:white; display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:20px; padding:20px; margin-top:30px; }
+    footer h3 { margin-top:0; }
+    footer input, footer textarea { width:100%; padding:8px; margin:5px 0; border-radius:6px; border:none; }
+    footer button { padding:8px 12px; background:white; color:#2ecc71; border:none; border-radius:6px; cursor:pointer; }
+    footer button:hover { background:#e9e9e9; }
+
+    /* Modal Pago */
+    .modal { display:none; position:fixed; z-index:1000; left:0; top:0; width:100%; height:100%; background:rgba(0,0,0,0.6); justify-content:center; align-items:center; }
+    .modal-content { background:#fff; padding:25px; border-radius:15px; text-align:center; max-width:400px; animation:scaleIn 0.4s ease; }
+    .modal-content h2 { color:#27ae60; }
+    .modal-content button { margin-top:15px; padding:10px 20px; background:#27ae60; border:none; border-radius:8px; color:white; cursor:pointer; }
+    .modal-content button:hover { background:#219150; }
+
+    @keyframes fadeIn { from{opacity:0;} to{opacity:1;} }
+    @keyframes scaleIn { from{transform:scale(0.7); opacity:0;} to{transform:scale(1); opacity:1;} }
+  </style>
 </head>
-<body class="home">
-  <div class="home-container">
-    <header class="home-header">
-      <img src="assets/logo.png" alt="PequeMarket" class="home-logo" />
-      <h1 class="home-title">Diversión y Aprendizaje para los Más Pequeños</h1>
-      <p class="home-subtitle">Encuentra los mejores juguetes educativos</p>
-    </header>
+<body>
 
-    <div class="home-features">
-      <div class="feature">
-        <i class="fas fa-shipping-fast"></i>
-        <h3>Envío Rápido</h3>
-        <p>Recibe en 24-48h</p>
-      </div>
-      <div class="feature">
-        <i class="fas fa-gift"></i>
-        <h3>Regalos Perfectos</h3>
-        <p>Para todas las edades</p>
-      </div>
-      <div class="feature">
-        <i class="fas fa-shield-alt"></i>
-        <h3>Materiales Seguros</h3>
-        <p>Certificados para niños</p>
-      </div>
-    </div>
+<header>
+  <h1>🥦 Tienda Online de Frutas, Verduras y Granos 🌽</h1>
+</header>
 
-    <div class="home-buttons">
-      <a href="explore.html" class="btn primary-btn">Explorar Juguetes</a>
-      <a href="register.html" class="btn secondary-btn">Regístrate</a>
-    </div>
+<nav>
+  <button onclick="mostrarSeccion('frutas')">Frutas</button>
+  <button onclick="mostrarSeccion('verduras')">Verduras</button>
+  <button onclick="mostrarSeccion('granos')">Granos</button>
+  <button onclick="mostrarSeccion('ofertas')">Ofertas</button>
+  <button onclick="mostrarSeccion('carrito')">Carrito</button>
+</nav>
 
-    <div class="home-highlights">
-      <h2>Los Favoritos de la Semana</h2>
-      <div class="highlight-products">
-        <div class="highlight">
-          <img src="assets/productos/dino.png" alt="Dinosaurio">
-          <p>Dino Adventure</p>
-        </div>
-        <div class="highlight">
-          <img src="assets/productos/bloques.png" alt="Bloques">
-          <p>Bloques Creativos</p>
-        </div>
-        <div class="highlight">
-          <img src="assets/productos/oso.png" alt="Osito">
-          <p>Osito Cariñoso</p>
-        </div>
-      </div>
+<!-- ================= FRUTAS ================= -->
+<section id="frutas" class="active">
+  <h2>Frutas</h2>
+
+  <div class="subseccion">
+    <h3>Tropicales</h3>
+    <div class="productos">
+      <div class="producto"><img src="https://upload.wikimedia.org/wikipedia/commons/9/90/Hapus_Mango.jpg"><h4>Mango</h4><p>Dulce y jugoso.</p><p class="precio">$5000 x Kg | $2500 x Lb</p><input type="number" id="peso-mango" placeholder="Kg o Lb"><button class="agregar" onclick="agregarAlCarrito('Mango', document.getElementById('peso-mango').value, 5000)">Agregar</button></div>
+      <div class="producto"><img src="https://upload.wikimedia.org/wikipedia/commons/c/cb/Pineapple_and_cross_section.jpg"><h4>Piña</h4><p>Refrescante.</p><p class="precio">$3000 x Kg | $1500 x Lb</p><input type="number" id="peso-pina" placeholder="Kg o Lb"><button class="agregar" onclick="agregarAlCarrito('Piña', document.getElementById('peso-pina').value, 3000)">Agregar</button></div>
+      <div class="producto"><img src="https://upload.wikimedia.org/wikipedia/commons/1/15/Red_Apple.jpg"><h4>Manzana</h4><p>Crujiente.</p><p class="precio">$4500 x Kg | $2250 x Lb</p><input type="number" id="peso-manzana" placeholder="Kg o Lb"><button class="agregar" onclick="agregarAlCarrito('Manzana', document.getElementById('peso-manzana').value, 4500)">Agregar</button></div>
+      <div class="producto"><img src="https://upload.wikimedia.org/wikipedia/commons/2/2f/Cantaloupes.jpg"><h4>Melón</h4><p>Jugoso.</p><p class="precio">$2800 x Kg | $1400 x Lb</p><input type="number" id="peso-melon" placeholder="Kg o Lb"><button class="agregar" onclick="agregarAlCarrito('Melón', document.getElementById('peso-melon').value, 2800)">Agregar</button></div>
+      <div class="producto"><img src="https://upload.wikimedia.org/wikipedia/commons/e/e5/Guava_ID.jpg"><h4>Guayaba</h4><p>Rica en vitamina C.</p><p class="precio">$4000 x Kg | $2000 x Lb</p><input type="number" id="peso-guayaba" placeholder="Kg o Lb"><button class="agregar" onclick="agregarAlCarrito('Guayaba', document.getElementById('peso-guayaba').value, 4000)">Agregar</button></div>
     </div>
   </div>
+
+  <div class="subseccion">
+    <h3>Cítricos</h3>
+    <div class="productos">
+      <div class="producto"><img src="https://upload.wikimedia.org/wikipedia/commons/c/c4/Orange-Fruit-Pieces.jpg"><h4>Naranja</h4><p>Rica en vitamina C.</p><p class="precio">$4000 x Kg | $2000 x Lb</p><input type="number" id="peso-naranja" placeholder="Kg o Lb"><button class="agregar" onclick="agregarAlCarrito('Naranja', document.getElementById('peso-naranja').value, 4000)">Agregar</button></div>
+      <div class="producto"><img src="https://upload.wikimedia.org/wikipedia/commons/5/56/Lemon.jpg"><h4>Limón</h4><p>Refrescante.</p><p class="precio">$3500 x Kg | $1750 x Lb</p><input type="number" id="peso-limon" placeholder="Kg o Lb"><button class="agregar" onclick="agregarAlCarrito('Limón', document.getElementById('peso-limon').value, 3500)">Agregar</button></div>
+      <div class="producto"><img src="https://upload.wikimedia.org/wikipedia/commons/3/36/Grapefruit_and_cross_section.jpg"><h4>Toronja</h4><p>Agria y fresca.</p><p class="precio">$3800 x Kg | $1900 x Lb</p><input type="number" id="peso-toronja" placeholder="Kg o Lb"><button class="agregar" onclick="agregarAlCarrito('Toronja', document.getElementById('peso-toronja').value, 3800)">Agregar</button></div>
+      <div class="producto"><img src="https://upload.wikimedia.org/wikipedia/commons/d/dc/TangerineFruit.jpg"><h4>Mandarina</h4><p>Dulce y jugosa.</p><p class="precio">$4200 x Kg | $2100 x Lb</p><input type="number" id="peso-mandarina" placeholder="Kg o Lb"><button class="agregar" onclick="agregarAlCarrito('Mandarina', document.getElementById('peso-mandarina').value, 4200)">Agregar</button></div>
+      <div class="producto"><img src="https://upload.wikimedia.org/wikipedia/commons/a/a8/Citrus_reticulata.jpg"><h4>Clementina</h4><p>Pequeña y dulce.</p><p class="precio">$4400 x Kg | $2200 x Lb</p><input type="number" id="peso-clementina" placeholder="Kg o Lb"><button class="agregar" onclick="agregarAlCarrito('Clementina', document.getElementById('peso-clementina').value, 4400)">Agregar</button></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= VERDURAS ================= -->
+<section id="verduras">
+  <h2>Verduras</h2>
+
+  <div class="subseccion">
+    <h3>Hojas Verdes</h3>
+    <div class="productos">
+      <div class="producto"><img src="https://upload.wikimedia.org/wikipedia/commons/0/03/Spinach_leaves.jpg"><h4>Espinaca</h4><p>Rica en hierro.</p><p class="precio">$2500 x Kg | $1250 x Lb</p><input type="number" id="peso-espinaca" placeholder="Kg o Lb"><button class="agregar" onclick="agregarAlCarrito('Espinaca', document.getElementById('peso-espinaca').value, 2500)">Agregar</button></div>
+      <div class="producto"><img src="https://upload.wikimedia.org/wikipedia/commons/3/38/Lettuce.jpg"><h4>Lechuga</h4><p>Fresca para ensaladas.</p><p class="precio">$1800 x Kg | $900 x Lb</p><input type="number" id="peso-lechuga" placeholder="Kg o Lb"><button class="agregar" onclick="agregarAlCarrito('Lechuga', document.getElementById('peso-lechuga').value, 1800)">Agregar</button></div>
+      <div class="producto"><img src="https://upload.wikimedia.org/wikipedia/commons/7/70/Kale-Bundle.jpg"><h4>Kale</h4><p>Superalimento.</p><p class="precio">$3500 x Kg | $1750 x Lb</p><input type="number" id="peso-kale" placeholder="Kg o Lb"><button class="agregar" onclick="agregarAlCarrito('Kale', document.getElementById('peso-kale').value, 3500)">Agregar</button></div>
+      <div class="producto"><img src="https://upload.wikimedia.org/wikipedia/commons/f/f1/Swiss_chard_leaves.jpg"><h4>Acelga</h4><p>Nutritiva y fresca.</p><p class="precio">$2200 x Kg | $1100 x Lb</p><input type="number" id="peso-acelga" placeholder="Kg o Lb"><button class="agregar" onclick="agregarAlCarrito('Acelga', document.getElementById('peso-acelga').value, 2200)">Agregar</button></div>
+      <div class="producto"><img src="https://upload.wikimedia.org/wikipedia/commons/8/8c/Broccoli_and_cross_section_edit.jpg"><h4>Brócoli</h4><p>Rico en fibra.</p><p class="precio">$3000 x Kg | $1500 x Lb</p><input type="number" id="peso-brocoli" placeholder="Kg o Lb"><button class="agregar" onclick="agregarAlCarrito('Brócoli', document.getElementById('peso-brocoli').value, 3000)">Agregar</button></div>
+    </div>
+  </div>
+
+  <div class="subseccion">
+    <h3>Raíces</h3>
+    <div class="productos">
+      <div class="producto"><img src="https://upload.wikimedia.org/wikipedia/commons/0/05/Carrot.jpg"><h4>Zanahoria</h4><p>Rica en betacarotenos.</p><p class="precio">$2000 x Kg | $1000 x Lb</p><input type="number" id="peso-zanahoria" placeholder="Kg o Lb"><button class="agregar" onclick="agregarAlCarrito('Zanahoria', document.getElementById('peso-zanahoria').value, 2000)">Agregar</button></div>
+      <div class="producto"><img src="https://upload.wikimedia.org/wikipedia/commons/4/40/Potatoes.jpg"><h4>Papa</h4><p>Base de muchas recetas.</p><p class="precio">$1500 x Kg | $750 x Lb</p><input type="number" id="peso-papa" placeholder="Kg o Lb"><button class="agregar" onclick="agregarAlCarrito('Papa', document.getElementById('peso-papa').value, 1500)">Agregar</button></div>
+      <div class="producto"><img src="https://upload.wikimedia.org/wikipedia/commons/6/6f/Beets-Bundle.jpg"><h4>Remolacha</h4><p>Rica en antioxidantes.</p><p class="precio">$2300 x Kg | $1150 x Lb</p><input type="number" id="peso-remolacha" placeholder="Kg o Lb"><button class="agregar" onclick="agregarAlCarrito('Remolacha', document.getElementById('peso-remolacha').value, 2300)">Agregar</button></div>
+      <div class="producto"><img src="https://upload.wikimedia.org/wikipedia/commons/d/d8/Yuca_roots.jpg"><h4>Yuca</h4><p>Fuente de energía.</p><p class="precio">$1700 x Kg | $850 x Lb</p><input type="number" id="peso-yuca" placeholder="Kg o Lb"><button class="agregar" onclick="agregarAlCarrito('Yuca', document.getElementById('peso-yuca').value, 1700)">Agregar</button></div>
+      <div class="producto"><img src="https://upload.wikimedia.org/wikipedia/commons/6/65/SweetPotatoes.jpg"><h4>Batata</h4><p>Dulce y nutritiva.</p><p class="precio">$2100 x Kg | $1050 x Lb</p><input type="number" id="peso-batata" placeholder="Kg o Lb"><button class="agregar" onclick="agregarAlCarrito('Batata', document.getElementById('peso-batata').value, 2100)">Agregar</button></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= GRANOS ================= -->
+<section id="granos">
+  <h2>Granos</h2>
+
+  <div class="subseccion">
+    <h3>Legumbres</h3>
+    <div class="productos">
+      <div class="producto"><img src="https://upload.wikimedia.org/wikipedia/commons/3/3f/Black_beans.jpg"><h4>Fríjol Negro</h4><p>Alto en proteína.</p><p class="precio">$3500 x Kg | $1750 x Lb</p><input type="number" id="peso-frijol" placeholder="Kg o Lb"><button class="agregar" onclick="agregarAlCarrito('Fríjol Negro', document.getElementById('peso-frijol').value, 3500)">Agregar</button></div>
+      <div class="producto"><img src="https://upload.wikimedia.org/wikipedia/commons/6/6a/Lentejas.jpg"><h4>Lentejas</h4><p>Fuente de hierro.</p><p class="precio">$3200 x Kg | $1600 x Lb</p><input type="number" id="peso-lentejas" placeholder="Kg o Lb"><button class="agregar" onclick="agregarAlCarrito('Lentejas', document.getElementById('peso-lentejas').value, 3200)">Agregar</button></div>
+      <div class="producto"><img src="https://upload.wikimedia.org/wikipedia/commons/f/f0/Chickpeas.jpg"><h4>Garbanzos</h4><p>Ricos en fibra.</p><p class="precio">$3300 x Kg | $1650 x Lb</p><input type="number" id="peso-garbanzos" placeholder="Kg o Lb"><button class="agregar" onclick="agregarAlCarrito('Garbanzos', document.getElementById('peso-garbanzos').value, 3300)">Agregar</button></div>
+      <div class="producto"><img src="https://upload.wikimedia.org/wikipedia/commons/2/27/Red_kidney_beans.jpg"><h4>Fríjol Rojo</h4><p>Base de muchos platos.</p><p class="precio">$3400 x Kg | $1700 x Lb</p><input type="number" id="peso-frijol-rojo" placeholder="Kg o Lb"><button class="agregar" onclick="agregarAlCarrito('Fríjol Rojo', document.getElementById('peso-frijol-rojo').value, 3400)">Agregar</button></div>
+      <div class="producto"><img src="https://upload.wikimedia.org/wikipedia/commons/d/d5/Peas_in_pods_-_Studio.jpg"><h4>Arveja</h4><p>Dulce y versátil.</p><p class="precio">$3100 x Kg | $1550 x Lb</p><input type="number" id="peso-arveja" placeholder="Kg o Lb"><button class="agregar" onclick="agregarAlCarrito('Arveja', document.getElementById('peso-arveja').value, 3100)">Agregar</button></div>
+    </div>
+  </div>
+
+  <div class="subseccion">
+    <h3>Cereales</h3>
+    <div class="productos">
+      <div class="producto"><img src="https://upload.wikimedia.org/wikipedia/commons/5/5f/Maizekernels.jpg"><h4>Maíz</h4><p>Básico en la dieta.</p><p class="precio">$2200 x Kg | $1100 x Lb</p><input type="number" id="peso-maiz" placeholder="Kg o Lb"><button class="agregar" onclick="agregarAlCarrito('Maíz', document.getElementById('peso-maiz').value, 2200)">Agregar</button></div>
+      <div class="producto"><img src="https://upload.wikimedia.org/wikipedia/commons/6/6f/Rice_grains_%28IRRI%29.jpg"><h4>Arroz</h4><p>Infaltable.</p><p class="precio">$2000 x Kg | $1000 x Lb</p><input type="number" id="peso-arroz" placeholder="Kg o Lb"><button class="agregar" onclick="agregarAlCarrito('Arroz', document.getElementById('peso-arroz').value, 2000)">Agregar</button></div>
+      <div class="producto"><img src="https://upload.wikimedia.org/wikipedia/commons/1/1c/Oats.jpg"><h4>Avena</h4><p>Rica en fibra.</p><p class="precio">$2800 x Kg | $1400 x Lb</p><input type="number" id="peso-avena" placeholder="Kg o Lb"><button class="agregar" onclick="agregarAlCarrito('Avena', document.getElementById('peso-avena').value, 2800)">Agregar</button></div>
+      <div class="producto"><img src="https://upload.wikimedia.org/wikipedia/commons/b/b2/Barley.jpg"><h4>Cebada</h4><p>Fuente de energía.</p><p class="precio">$2600 x Kg | $1300 x Lb</p><input type="number" id="peso-cebada" placeholder="Kg o Lb"><button class="agregar" onclick="agregarAlCarrito('Cebada', document.getElementById('peso-cebada').value, 2600)">Agregar</button></div>
+      <div class="producto"><img src="https://upload.wikimedia.org/wikipedia/commons/e/e5/Quinoa.jpg"><h4>Quinoa</h4><p>Superalimento.</p><p class="precio">$4000 x Kg | $2000 x Lb</p><input type="number" id="peso-quinoa" placeholder="Kg o Lb"><button class="agregar" onclick="agregarAlCarrito('Quinoa', document.getElementById('peso-quinoa').value, 4000)">Agregar</button></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= OFERTAS ================= -->
+<section id="ofertas">
+  <h2>Ofertas</h2>
+
+  <div class="subseccion">
+    <h3>Frutas en Promoción</h3>
+    <div class="productos">
+      <div class="producto"><img src="https://upload.wikimedia.org/wikipedia/commons/1/15/Bananas.jpg"><h4>Banano</h4><p>Oferta 2x1.</p><p class="precio">$2000 x Kg | $1000 x Lb</p><input type="number" id="peso-banano" placeholder="Kg o Lb"><button class="agregar" onclick="agregarAlCarrito('Banano', document.getElementById('peso-banano').value, 2000)">Agregar</button></div>
+      <div class="producto"><img src="https://upload.wikimedia.org/wikipedia/commons/6/6d/Watermelon.jpg"><h4>Sandía</h4><p>Refrescante.</p><p class="precio">$1500 x Kg | $750 x Lb</p><input type="number" id="peso-sandia" placeholder="Kg o Lb"><button class="agregar" onclick="agregarAlCarrito('Sandía', document.getElementById('peso-sandia').value, 1500)">Agregar</button></div>
+      <div class="producto"><img src="https://upload.wikimedia.org/wikipedia/commons/d/d3/Avocado.jpg"><h4>Aguacate</h4><p>50% de descuento.</p><p class="precio">$3500 x Kg | $1750 x Lb</p><input type="number" id="peso-aguacate" placeholder="Kg o Lb"><button class="agregar" onclick="agregarAlCarrito('Aguacate', document.getElementById('peso-aguacate').value, 3500)">Agregar</button></div>
+      <div class="producto"><img src="https://upload.wikimedia.org/wikipedia/commons/4/47/Pear.jpg"><h4>Pera</h4><p>Oferta especial.</p><p class="precio">$2800 x Kg | $1400 x Lb</p><input type="number" id="peso-pera" placeholder="Kg o Lb"><button class="agregar" onclick="agregarAlCarrito('Pera', document.getElementById('peso-pera').value, 2800)">Agregar</button></div>
+      <div class="producto"><img src="https://upload.wikimedia.org/wikipedia/commons/c/c7/Plums.jpg"><h4>Ciruela</h4><p>Dulce y ácida.</p><p class="precio">$3000 x Kg | $1500 x Lb</p><input type="number" id="peso-ciruela" placeholder="Kg o Lb"><button class="agregar" onclick="agregarAlCarrito('Ciruela', document.getElementById('peso-ciruela').value, 3000)">Agregar</button></div>
+    </div>
+  </div>
+
+  <div class="subseccion">
+    <h3>Combos</h3>
+    <div class="productos">
+      <div class="producto"><img src="https://upload.wikimedia.org/wikipedia/commons/4/4c/Fruit_Basket.jpg"><h4>Canasta Frutas</h4><p>Mixta 5 Kg.</p><p class="precio">$18000</p><button class="agregar" onclick="agregarAlCarrito('Canasta Frutas', 1, 18000)">Agregar</button></div>
+      <div class="producto"><img src="https://upload.wikimedia.org/wikipedia/commons/d/d7/Vegetables.jpg"><h4>Combo Verduras</h4><p>Fresco 5 Kg.</p><p class="precio">$15000</p><button class="agregar" onclick="agregarAlCarrito('Combo Verduras', 1, 15000)">Agregar</button></div>
+      <div class="producto"><img src="https://upload.wikimedia.org/wikipedia/commons/a/a0/LegumeMix.jpg"><h4>Combo Granos</h4><p>Variedad 3 Kg.</p><p class="precio">$12000</p><button class="agregar" onclick="agregarAlCarrito('Combo Granos', 1, 12000)">Agregar</button></div>
+      <div class="producto"><img src="https://upload.wikimedia.org/wikipedia/commons/c/cd/HealthyFood.jpg"><h4>Combo Saludable</h4><p>Frutas + Verduras.</p><p class="precio">$20000</p><button class="agregar" onclick="agregarAlCarrito('Combo Saludable', 1, 20000)">Agregar</button></div>
+      <div class="producto"><img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/MarketBasket.jpg"><h4>Canasta Mixta</h4><p>Especial 10 Kg.</p><p class="precio">$35000</p><button class="agregar" onclick="agregarAlCarrito('Canasta Mixta', 1, 35000)">Agregar</button></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CARRITO ================= -->
+<section id="carrito">
+  <h2>🛒 Carrito de Compras</h2>
+  <ul id="lista-carrito"></ul>
+  <h3>Total: $<span id="total">0</span></h3>
+  <button onclick="pagar()">Pagar</button>
+</section>
+
+<!-- ================= FOOTER ================= -->
+<footer>
+  <div>
+    <h3>Reseñas de Clientes</h3>
+    <ul id="lista-resenas">
+      <li>⭐⭐⭐⭐⭐ "Excelente calidad y frescura"</li>
+      <li>⭐⭐⭐⭐ "Buen servicio y precios"</li>
+      <li>⭐⭐⭐⭐⭐ "Me llegó rápido el pedido"</li>
+      <li>⭐⭐⭐⭐ "Muy buena atención al cliente"</li>
+    </ul>
+  </div>
+  <div>
+    <h3>Contáctanos</h3>
+    <input type="text" placeholder="Tu nombre">
+    <input type="email" placeholder="Tu correo">
+    <textarea placeholder="Escribe tu mensaje"></textarea>
+    <button>Enviar</button>
+  </div>
+</footer>
+
+<!-- ================= MODAL ================= -->
+<div class="modal" id="modalPago">
+  <div class="modal-content">
+    <h2 id="mensajePago">¡Pago exitoso!</h2>
+    <button onclick="cerrarModal()">Cerrar</button>
+  </div>
+</div>
+
+<script>
+  let carrito = [];
+  let total = 0;
+
+  function mostrarSeccion(id) {
+    document.querySelectorAll("section").forEach(sec => sec.classList.remove("active"));
+    document.getElementById(id).classList.add("active");
+  }
+
+  function agregarAlCarrito(nombre, peso, precioKg) {
+    if (!peso || peso <= 0) { alert("Ingresa un peso válido"); return; }
+    let costo = precioKg * peso;
+    carrito.push({nombre, peso, costo});
+    total += costo;
+    actualizarCarrito();
+  }
+
+  function actualizarCarrito() {
+    const lista = document.getElementById("lista-carrito");
+    lista.innerHTML = "";
+    carrito.forEach(item => {
+      let li = document.createElement("li");
+      li.textContent = `${item.nombre} - ${item.peso} Kg/Lb = $${item.costo}`;
+      lista.appendChild(li);
+    });
+    document.getElementById("total").textContent = total;
+  }
+
+  function pagar() {
+    if (carrito.length === 0) { alert("Tu carrito está vacío"); return; }
+    document.getElementById("mensajePago").textContent = `¡Pago exitoso! Total pagado: $${total}`;
+    document.getElementById("modalPago").style.display = "flex";
+    carrito = [];
+    total = 0;
+    actualizarCarrito();
+  }
+
+  function cerrarModal() {
+    document.getElementById("modalPago").style.display = "none";
+  }
+</script>
+
 </body>
 </html>
