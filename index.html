@@ -1,642 +1,498 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Fruver — Mercado Original</title>
-  <style>
-    /* ===== Theme & base ===== */
-    :root{
-      --bg:#fbfdf9;
-      --panel:#ffffff;
-      --accent-1:#0b6b3a; /* deep green */
-      --accent-2:#ff7a18; /* warm orange */
-      --muted:#61706b;
-      --glass: rgba(255,255,255,0.75);
-      --card-shadow: 0 10px 30px rgba(11,107,58,0.08);
-      --radius:14px;
-    }
-    *{box-sizing:border-box}
-    body{
-      margin:0;
-      font-family: Inter, "Segoe UI", Roboto, Arial, sans-serif;
-      background: linear-gradient(180deg,#f2fbf6 0%,var(--bg) 100%);
-      color:#0f1f1a;
-      -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
-    }
-    header{
-      background: linear-gradient(90deg,var(--accent-1), #1fbf6e);
-      padding:20px 16px;
-      color:white;
-      display:flex;
-      gap:18px;
-      align-items:center;
-      justify-content:space-between;
-      box-shadow: 0 8px 24px rgba(11,107,58,0.12);
-    }
-    .brand{
-      display:flex;gap:12px;align-items:center;
-    }
-    .logo{
-      width:54px;height:54px;border-radius:12px;background:linear-gradient(180deg,#fff3e6,#fff);display:flex;align-items:center;justify-content:center;font-weight:800;color:var(--accent-1);
-      box-shadow: 0 6px 18px rgba(0,0,0,0.08);
-    }
-    .brand h1{margin:0;font-size:20px;letter-spacing:-0.4px}
-    .brand p{margin:0;font-size:12px;opacity:.95}
-    .controls{display:flex;gap:12px;align-items:center}
-    select, .btn-ghost{
-      padding:8px 10px;border-radius:10px;border:none;background:rgba(255,255,255,0.12);color:white;font-weight:600;cursor:pointer;
-    }
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Fruver — Mercado Nocturno (COP)</title>
+<style>
+  :root{
+    --bg:#1a1a1a;
+    --panel:#111412;
+    --muted:#9fb0a9;
+    --accent-1:#2fd07a;
+    --accent-2:#ff8b3d;
+    --accent-3:#ffe29a;
+    --radius:10px;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0;
+    font-family: Inter, "Segoe UI", Roboto, Arial, sans-serif;
+    background:linear-gradient(180deg,var(--bg),#121212 140%);
+    color:#eaf6ef;
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+    line-height:1.4;
+  }
 
-    /* ===== Layout ===== */
-    main{max-width:1180px;margin:28px auto;padding:0 16px;display:grid;grid-template-columns:1fr 340px;gap:22px;align-items:start}
-    @media(max-width:1000px){ main{grid-template-columns:1fr} }
+  /* Header */
+  header{
+    position:sticky; top:0; z-index:60;
+    display:flex;justify-content:space-between;align-items:center;padding:14px 18px;
+    background: rgba(255,255,255,0.02);
+    border-bottom:1px solid rgba(255,255,255,0.03);
+    backdrop-filter: blur(4px);
+  }
+  .brand{display:flex;gap:12px;align-items:center}
+  .logo{
+    width:52px;height:52px;border-radius:12px;
+    background:linear-gradient(90deg,var(--accent-2),var(--accent-1));
+    display:flex;align-items:center;justify-content:center;font-weight:800;color:#07110d;font-size:20px;
+  }
+  .brand h1{margin:0;font-size:18px}
+  .brand .subtitle{font-size:12px;color:var(--muted);margin-top:2px}
 
-    /* ===== Catalog area ===== */
-    .section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
-    .section-header h2{margin:0;font-size:22px}
-    .sections{background:transparent;padding:8px 0}
+  .controls{display:flex;gap:8px;align-items:center}
+  select, .btn-ghost{
+    background:transparent;border:1px solid rgba(255,255,255,0.04);color:var(--accent-3);
+    padding:7px 10px;border-radius:8px;font-weight:700;cursor:pointer;
+  }
+  .btn-ghost{color:var(--accent-1)}
 
-    .subsection{
-      margin-bottom:28px;
-      background: linear-gradient(180deg, rgba(255,255,255,0.6), rgba(255,255,255,0.9));
-      padding:12px;border-radius:12px;box-shadow: var(--card-shadow);
-      border-left:6px solid rgba(11,107,58,0.06);
-    }
-    .subsection h3{margin:0 0 8px 0;display:flex;align-items:center;gap:8px;font-size:16px}
-    .subsection .hint{font-size:12px;color:var(--muted);margin-bottom:10px}
+  /* Layout */
+  main{max-width:1180px;margin:20px auto;padding:0 16px;display:grid;grid-template-columns:1fr 360px;gap:20px;align-items:start}
+  @media(max-width:980px){ main{grid-template-columns:1fr;padding:12px} }
 
-    .grid-products{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
+  /* Catalog */
+  .catalog-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+  .catalog-head h2{margin:0;font-size:20px}
+  .hint{color:var(--muted);font-size:13px}
 
-    /* ===== Product card (customized) ===== */
-    .card{
-      background:var(--panel);
-      border-radius:12px;
-      padding:12px;
-      box-shadow:0 8px 30px rgba(11,107,58,0.04);
-      transition:transform .22s ease, box-shadow .22s ease;
-      position:relative; overflow:hidden;
-      border:1px solid rgba(11,107,58,0.03);
-    }
-    .card:hover{ transform:translateY(-6px); box-shadow:0 18px 50px rgba(11,107,58,0.08) }
-    .card .media{height:120px;border-radius:10px;overflow:hidden;margin-bottom:10px;background:#f3f3f3;display:flex;align-items:center;justify-content:center}
-    .card .media img{width:100%;height:100%;object-fit:cover;display:block}
+  #catalog{display:flex;flex-direction:column;gap:16px}
 
-    .card h4{margin:0;font-size:16px}
-    .card p.desc{margin:6px 0 10px;color:var(--muted);font-size:13px;min-height:36px}
-    .price-row{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:10px}
-    .price{font-weight:800;color:var(--accent-1)}
-    .price small{display:block;font-size:12px;color:var(--muted);font-weight:600}
+  .section-block{
+    background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.015));
+    padding:12px;border-radius:12px;border:1px solid rgba(255,255,255,0.03);
+  }
+  .section-title h3{margin:0;font-size:16px;color:#fff}
 
-    .card .controls{display:flex;gap:8px;align-items:center}
-    .card input[type=number]{width:100px;padding:8px;border-radius:8px;border:1px solid #e9f0ea}
-    .btn-add{background:linear-gradient(90deg,var(--accent-1),var(--accent-2));border:none;color:white;padding:8px 10px;border-radius:10px;cursor:pointer;font-weight:700;box-shadow:0 8px 18px rgba(255,122,24,0.08)}
-    .btn-add:hover{transform:translateY(-3px)}
+  .subsection{margin-top:10px}
+  .subhead{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px}
+  .subhead h4{margin:0;font-size:15px}
+  .subhead .note{color:var(--muted);font-size:12px}
 
-    /* Offer ribbon */
-    .ribbon{position:absolute;left:-50px;top:12px;background:var(--accent-2);color:white;padding:6px 80px;transform:rotate(-35deg);font-weight:800;font-size:12px;box-shadow:0 6px 20px rgba(0,0,0,0.12)}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px}
 
-    /* ===== Cart panel (right) ===== */
-    .cart{
-      background: linear-gradient(180deg, rgba(255,255,255,0.9), var(--glass));
-      padding:16px;border-radius:12px;box-shadow:var(--card-shadow);position:sticky;top:22px;height:fit-content;
-    }
-    .cart h3{margin:0 0 10px 0}
-    .cart-list{max-height:420px;overflow:auto;margin-bottom:12px;padding:0;list-style:none}
-    .cart-item{display:flex;gap:10px;align-items:center;padding:8px;border-radius:10px;background:linear-gradient(90deg,#fff,#fbfff9);border:1px solid rgba(11,107,58,0.03);margin-bottom:8px}
-    .cart-item img{width:56px;height:56px;object-fit:cover;border-radius:8px}
-    .cart-item .meta{flex:1}
-    .cart-item .meta b{display:block}
-    .cart-item small{color:var(--muted)}
-    .cart-actions{display:flex;gap:8px;margin-top:8px}
-    .btn-primary{background:linear-gradient(90deg,var(--accent-1),var(--accent-2));color:white;border:none;padding:10px;border-radius:10px;cursor:pointer;font-weight:800}
-    .btn-secondary{background:transparent;border:1px solid rgba(11,107,58,0.12);padding:8px;border-radius:10px;cursor:pointer}
+  /* Product cards (flat images) */
+  .card{
+    background:var(--panel);
+    border-radius:12px;padding:10px;border:1px solid rgba(255,255,255,0.03);
+    transition:transform .18s ease;position:relative;overflow:hidden;
+  }
+  .card:hover{transform:translateY(-6px)}
+  .media{height:140px;border-radius:8px;overflow:hidden;background:#0b0f0f}
+  .card img{width:100%;height:100%;object-fit:cover;display:block;border-radius:6px}
+  .card h5{margin:8px 0 6px 0;font-size:15px}
+  .card p.desc{margin:0 0 8px;color:var(--muted);font-size:13px;min-height:42px}
+  .price{font-weight:900;color:var(--accent-1);font-size:14px}
+  .price small{display:block;color:var(--muted);font-weight:700;font-size:12px;margin-top:4px}
 
-    /* ===== Footer ===== */
-    footer{margin-top:28px;padding:22px;max-width:1180px;margin-left:auto;margin-right:auto;display:grid;grid-template-columns:1fr 1fr;gap:18px}
-    .contact, .reviews{background:var(--panel);padding:16px;border-radius:12px;box-shadow:var(--card-shadow)}
-    .contact input,.contact textarea{width:100%;padding:8px;margin-top:8px;border-radius:8px;border:1px solid #e9f0ea}
-    .reviews ul{list-style:none;padding:0;margin:0}
-    .review{padding:10px;border-radius:8px;margin-bottom:8px;background:linear-gradient(90deg,#f8fff7,#fff);border:1px solid rgba(11,107,58,0.03)}
+  .controls-row{display:flex;gap:8px;align-items:center;margin-top:8px}
+  .controls-row input{width:110px;padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,0.03);background:transparent;color:inherit}
+  .add-btn{background:linear-gradient(90deg,var(--accent-1),var(--accent-2));border:none;padding:8px 12px;border-radius:8px;color:#07110d;font-weight:800;cursor:pointer}
+  .ribbon{position:absolute;right:-28px;top:10px;background:var(--accent-2);color:#07110d;padding:6px 70px;transform:rotate(18deg);font-weight:900;font-size:12px}
 
-    /* ===== Modal ===== */
-    .modal{display:none;position:fixed;inset:0;z-index:9999;background:rgba(3,6,5,0.45);align-items:center;justify-content:center}
-    .modal-card{background:var(--panel);padding:22px;border-radius:14px;max-width:420px;text-align:center;animation:modalIn .36s ease forwards}
-    @keyframes modalIn{from{transform:scale(.86);opacity:0}to{transform:scale(1);opacity:1}}
+  /* Cart (aside) */
+  aside.cart{background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.02));padding:14px;border-radius:12px;border:1px solid rgba(255,255,255,0.03);position:sticky;top:22px}
+  aside.cart h3{margin:0 0 10px 0}
+  .cart-list{max-height:420px;overflow:auto;padding:0;margin:0 0 8px 0;list-style:none}
+  .cart-item{display:flex;gap:10px;align-items:center;padding:8px;border-radius:8px;background:transparent;border:1px solid rgba(255,255,255,0.02);margin-bottom:8px}
+  .cart-item img{width:60px;height:60px;object-fit:cover;border-radius:6px}
+  .cart-summary{display:flex;justify-content:space-between;align-items:center;margin-top:6px}
+  .cart-actions{display:flex;gap:8px;margin-top:12px}
+  .btn-primary{background:linear-gradient(90deg,var(--accent-1),var(--accent-2));border:none;padding:10px 12px;border-radius:8px;font-weight:900;color:#07110d;cursor:pointer}
+  .btn-secondary{background:transparent;border:1px solid rgba(255,255,255,0.03);padding:8px;border-radius:8px;color:var(--accent-3);cursor:pointer}
 
-    /* small screens */
-    @media(max-width:900px){
-      main{grid-template-columns:1fr;padding:8px}
-      footer{grid-template-columns:1fr}
-      .card .media{height:140px}
-    }
-  </style>
+  /* Footer */
+  footer{max-width:1180px;margin:28px auto;padding:16px;display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .contact,.reviews{background:var(--panel);padding:14px;border-radius:12px;border:1px solid rgba(255,255,255,0.02)}
+  .contact input,.contact textarea{width:100%;padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,0.03);background:transparent;color:inherit;margin-top:8px}
+  .reviews ul{list-style:none;padding:0;margin:0}
+  .review{padding:10px;border-radius:8px;margin-bottom:8px;background:transparent;border:1px solid rgba(255,255,255,0.02)}
+
+  /* Modal */
+  .modal{display:none;position:fixed;inset:0;align-items:center;justify-content:center;background:rgba(0,0,0,0.6);z-index:10000}
+  .modal-card{background:linear-gradient(180deg,#0e1412,#0b100f);padding:18px;border-radius:12px;min-width:320px;color:#eaf6ef;box-shadow:0 24px 60px rgba(0,0,0,0.7);transform:scale(.96);opacity:0;transition:all .26s}
+  .modal-card.show{transform:scale(1);opacity:1}
+  .modal-card h3{margin:0 0 6px 0;color:var(--accent-3)}
+
+  @media(max-width:900px){ header{flex-direction:column;align-items:flex-start} footer{grid-template-columns:1fr} aside.cart{position:relative;top:0} }
+</style>
 </head>
 <body>
   <header>
-    <div class="brand">
+    <div class="brand" aria-hidden>
       <div class="logo">F</div>
       <div>
-        <h1>Fruver • Mercado Original</h1>
-        <p style="opacity:.9">Sabores locales — diseño único</p>
+        <h1>Fruver • Mercado Nocturno</h1>
+        <div class="subtitle">Precios en COP — texto en español natural</div>
       </div>
     </div>
 
-    <div class="controls" aria-hidden>
-      <label style="color:rgba(255,255,255,0.92);font-weight:700">Unidad</label>
-      <select id="unit-select" title="Unidad (kg o lb)">
+    <div class="controls" role="region" aria-label="Controles">
+      <label style="color:var(--accent-3);font-weight:800;margin-right:6px">Unidad</label>
+      <select id="unit-select" aria-label="Seleccionar unidad">
         <option value="kg">Kg</option>
         <option value="lb">Lb</option>
       </select>
-      <button class="btn-ghost" onclick="mostrarSeccion('catalogo')">Catálogo</button>
+      <button class="btn-ghost" id="scroll-catalog">Ir al catálogo</button>
     </div>
   </header>
 
   <main>
-    <!-- left: catalog -->
     <div>
-      <div class="section-header">
+      <div class="catalog-head">
         <h2>Catálogo</h2>
-        <div style="color:var(--muted)">Selecciona peso en <b id="current-unit">Kg</b> — los precios listados son por Kg y por Lb</div>
+        <div class="hint">Precios por Kg y por Lb — ingresa la cantidad según la unidad seleccionada.</div>
       </div>
 
-      <div id="catalogo" class="sections" aria-live="polite"></div>
+      <div id="catalog" aria-live="polite"></div>
     </div>
 
-    <!-- right: cart -->
-    <aside class="cart" aria-label="carrito">
-      <h3>🧺 Tu Carrito</h3>
+    <aside class="cart" aria-label="Carrito de compras">
+      <h3>🧺 Tu carrito</h3>
       <ul id="cart-list" class="cart-list" role="list"></ul>
 
-      <div style="display:flex;justify-content:space-between;align-items:center">
-        <div>
-          <div style="color:var(--muted)">Items: <b id="cart-count">0</b></div>
-          <div style="font-size:18px;margin-top:6px">Total: <b id="cart-total">$0</b></div>
-        </div>
+      <div class="cart-summary">
+        <div style="color:var(--muted)">Items: <strong id="cart-count">0</strong></div>
+        <div style="font-weight:900;font-size:18px">Total: <span id="cart-total">$0</span></div>
       </div>
 
       <div class="cart-actions">
-        <button class="btn-primary" id="pay-btn">Pagar</button>
-        <button class="btn-secondary" id="clear-btn">Vaciar</button>
+        <button class="btn-primary" id="pay-button">Pagar</button>
+        <button class="btn-secondary" id="clear-button">Vaciar</button>
       </div>
     </aside>
   </main>
 
-  <!-- Footer with contact & reviews -->
   <footer>
+    <div class="reviews">
+      <h4>Reseñas destacadas</h4>
+      <div style="color:var(--muted);margin-bottom:8px">Reseñas precargadas y nuevas reseñas guardadas localmente</div>
+      <ul id="reviews-list"></ul>
+      <div style="display:flex;gap:8px;margin-top:8px">
+        <input id="new-review" placeholder="Escribe tu reseña" />
+        <button class="btn-primary" id="btn-add-review">Publicar</button>
+      </div>
+    </div>
+
     <div class="contact">
-      <h3>Contáctanos</h3>
-      <p class="muted">Escríbenos si tienes una idea o pedido especial.</p>
+      <h4>Contáctanos</h4>
       <form id="contact-form">
         <input id="c-name" placeholder="Tu nombre" required />
         <input id="c-email" placeholder="Tu correo" type="email" required />
-        <textarea id="c-msg" rows="4" placeholder="Tu mensaje" required></textarea>
+        <textarea id="c-msg" placeholder="Tu mensaje" rows="4" required></textarea>
         <div style="display:flex;gap:8px;margin-top:8px">
           <button type="submit" class="btn-primary">Enviar</button>
           <button type="button" class="btn-secondary" id="contact-clear">Limpiar</button>
         </div>
-        <p id="contact-ok" style="color:green;margin-top:8px;display:none">✅ Mensaje enviado (simulado)</p>
+        <div id="contact-ok" style="color:var(--accent-1);margin-top:8px;display:none">✅ Mensaje enviado (simulado)</div>
       </form>
-    </div>
-
-    <div class="reviews">
-      <h3>Reseñas de clientes</h3>
-      <div style="margin-bottom:10px;color:var(--muted)">Opiniones reales precargadas y nuevas reseñas guardadas localmente.</div>
-      <ul id="reviews-list">
-        <!-- reviews appended here -->
-      </ul>
-
-      <div style="display:flex;gap:8px;margin-top:10px">
-        <input id="new-review" placeholder="Comparte tu reseña" />
-        <button class="btn-primary" id="add-review">Publicar</button>
-      </div>
     </div>
   </footer>
 
-  <!-- Modal Pago -->
-  <div id="modal-pay" class="modal" role="dialog" aria-modal="true">
-    <div class="modal-card">
-      <h2 id="modal-title">¡Pago exitoso!</h2>
-      <p id="modal-body" style="color:var(--muted)"></p>
-      <div style="display:flex;gap:10px;justify-content:center;margin-top:14px">
+  <div id="modal" class="modal" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="modal-card" id="modal-card">
+      <h3 id="modal-title">¡Pago exitoso!</h3>
+      <p id="modal-text" style="color:var(--muted)">Resumen del pago</p>
+      <div style="display:flex;gap:10px;justify-content:center;margin-top:12px">
         <button class="btn-primary" id="modal-close">Cerrar</button>
       </div>
     </div>
   </div>
 
-  <script>
-    /***********************
-     * Data: sections + products
-     ***********************/
-    const DATA = [
-      {
-        sectionId: 'frutas',
-        title: 'Frutas',
-        subsections: [
-          {
-            id: 'frutas-tropicales', title: 'Tropicales',
-            products: [
-              { id: 'mango', name:'Mango', desc:'Dulce y jugoso, perfecto para jugos.', img:'https://upload.wikimedia.org/wikipedia/commons/9/90/Hapus_Mango.jpg', priceKg:5000, offer:false },
-              { id: 'pina', name:'Piña', desc:'Aromática y refrescante.', img:'https://upload.wikimedia.org/wikipedia/commons/c/cb/Pineapple_and_cross_section.jpg', priceKg:3000, offer:false },
-              { id: 'banano', name:'Banano', desc:'Energía rápida, ideal para snacks.', img:'https://upload.wikimedia.org/wikipedia/commons/4/44/Bananas_white_background.jpg', priceKg:2000, offer:true },
-              { id: 'guayaba', name:'Guayaba', desc:'Rica en vitamina C.', img:'https://upload.wikimedia.org/wikipedia/commons/e/e5/Guava_ID.jpg', priceKg:4000, offer:false },
-              { id: 'mango-keitt', name:'Mango Keitt', desc:'Textura firme y dulce.', img:'https://upload.wikimedia.org/wikipedia/commons/4/47/KiwiFruit.jpg', priceKg:5200, offer:false }
-            ]
-          },
-          {
-            id: 'frutas-citricos', title: 'Cítricos',
-            products: [
-              { id: 'naranja', name:'Naranja', desc:'Para jugos naturales.', img:'https://upload.wikimedia.org/wikipedia/commons/c/c4/Orange-Fruit-Pieces.jpg', priceKg:4000, offer:false },
-              { id: 'limon', name:'Limón Tahití', desc:'Ácido y fragante.', img:'https://upload.wikimedia.org/wikipedia/commons/5/56/Lemon.jpg', priceKg:3500, offer:false },
-              { id: 'mandarina', name:'Mandarina', desc:'Dulce y fácil de pelar.', img:'https://upload.wikimedia.org/wikipedia/commons/d/dc/TangerineFruit.jpg', priceKg:4200, offer:true },
-              { id: 'toronja', name:'Toronja', desc:'Sabor amargo y refrescante.', img:'https://upload.wikimedia.org/wikipedia/commons/3/36/Grapefruit_and_cross_section.jpg', priceKg:3800, offer:false },
-              { id: 'clementina', name:'Clementina', desc:'Pequeña y muy aromática.', img:'https://upload.wikimedia.org/wikipedia/commons/a/a8/Citrus_reticulata.jpg', priceKg:4400, offer:false }
-            ]
-          }
-        ]
-      },
+<script>
+/* ===== Catálogo con imágenes confiables y optimizadas (Unsplash / Pexels directas) =====
+   Los textos están en español natural — si quieres cambiar alguno dímelo y lo actualizo.
+*/
+const DATA = [
+  { section: 'Frutas', subs: [
+      { title:'Tropicales', products:[
+        {id:'mango', name:'Mango', desc:'Mango maduro, dulce y jugoso, ideal para jugos o postres.', img:'https://images.unsplash.com/photo-1567306226416-28f0efdc88ce?auto=format&fit=crop&w=480&q=60', priceKg:5000, offer:false},
+        {id:'pina', name:'Piña', desc:'Piña fresca, aromática y perfecta para ensaladas o licuados.', img:'https://diariosalud.com/wp-content/uploads/2022/08/5-Beneficios-de-la-Pina-para-tu-salud-que-quizas-desconocias.png', priceKg:3000, offer:false},
+        {id:'banano', name:'Banano', desc:'Banano dulce, práctico para bocadillos y batidos.', img:'https://static.nationalgeographicla.com/files/styles/image_3200/public/banana_from_maracaibo.jpg?w=1600', priceKg:2000, offer:true},
+        {id:'guayaba', name:'Guayaba', desc:'Guayaba fresca, aromática y rica en vitamina C.', img:'https://mejorconsalud.as.com/wp-content/uploads/2013/09/iStock-1224636159.jpg', priceKg:4000, offer:false},
+        {id:'mango-keitt', name:'Mango Keitt', desc:'Variedad Keitt: firme, dulce y excelente para cortar en cubos.', img:'https://www.campodebenamayor.es/wp-content/uploads/2013/06/mango-fruta-tropical-en-nuestra-fruteria-online-1020287-W.jpg', priceKg:5200, offer:false}
+      ]},
+      { title:'Cítricos', products:[
+        {id:'naranja', name:'Naranja', desc:'Naranja jugosa, ideal para zumos naturales.', img:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRfjs5V6ejq2ArGYO8lMeBXMQYm3AovaO1AzQ&s', priceKg:4000, offer:false},
+        {id:'limon', name:'Limón Tahití', desc:'Limón aromático, perfecto para aderezos y bebidas.', img:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSba6Wc1Ozw7ODvxhsQencSVPePtkB5Qw5_Jg&s', priceKg:3500, offer:false},
+        {id:'mandarina', name:'Mandarina', desc:'Mandarina dulce, fácil de pelar y sabrosa.', img:'https://m.media-amazon.com/images/I/41PfhXQ8qLL._UF1000,1000_QL80_.jpg', priceKg:4200, offer:true},
+        {id:'toronja', name:'Toronja', desc:'Toronja fresca con toque amargo y refrescante.', img:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQBfCrpeJ-T203qBbHBlL3rsVCqPTEz4T8wFQ&s', priceKg:3800, offer:false},
+        {id:'clementina', name:'Clementina', desc:'Clementina pequeña, dulce y muy aromática.', img:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR0iRmNnmI44xYvPZWQujtY-JdgFj9TaqVKJA&s', priceKg:4400, offer:false}
+      ]}
+  ]},
 
-      {
-        sectionId: 'verduras',
-        title: 'Verduras',
-        subsections: [
-          {
-            id: 'ver-hojas', title:'Hojas Verdes',
-            products: [
-              { id: 'espinaca', name:'Espinaca', desc:'Hoja verde, rica en hierro.', img:'https://upload.wikimedia.org/wikipedia/commons/0/03/Spinach_leaves.jpg', priceKg:2500, offer:false },
-              { id: 'lechuga', name:'Lechuga', desc:'Fresca para ensaladas.', img:'https://upload.wikimedia.org/wikipedia/commons/3/38/Lettuce.jpg', priceKg:1800, offer:false },
-              { id: 'kale', name:'Kale', desc:'Superalimento robusto.', img:'https://upload.wikimedia.org/wikipedia/commons/7/70/Kale-Bundle.jpg', priceKg:3500, offer:false },
-              { id: 'acelga', name:'Acelga', desc:'Ideal para guisos y salteados.', img:'https://upload.wikimedia.org/wikipedia/commons/f/f1/Swiss_chard_leaves.jpg', priceKg:2200, offer:false },
-              { id: 'brocoli', name:'Brócoli', desc:'Rico en fibra y vitaminas.', img:'https://upload.wikimedia.org/wikipedia/commons/8/8c/Broccoli_and_cross_section_edit.jpg', priceKg:3000, offer:false }
-            ]
-          },
-          {
-            id: 'ver-raices', title:'Raíces',
-            products: [
-              { id: 'zanahoria', name:'Zanahoria', desc:'Fuente de betacarotenos.', img:'https://upload.wikimedia.org/wikipedia/commons/0/05/Carrot.jpg', priceKg:2000, offer:false },
-              { id: 'papa', name:'Papa', desc:'Versátil en la cocina.', img:'https://upload.wikimedia.org/wikipedia/commons/4/40/Potatoes.jpg', priceKg:1500, offer:false },
-              { id: 'remolacha', name:'Remolacha', desc:'Dulce y colorida.', img:'https://upload.wikimedia.org/wikipedia/commons/6/6f/Beets-Bundle.jpg', priceKg:2300, offer:false },
-              { id: 'yuca', name:'Yuca', desc:'Energía tradicional.', img:'https://upload.wikimedia.org/wikipedia/commons/d/d8/Yuca_roots.jpg', priceKg:1700, offer:false },
-              { id: 'batata', name:'Batata', desc:'Dulce y nutritiva.', img:'https://upload.wikimedia.org/wikipedia/commons/6/65/SweetPotatoes.jpg', priceKg:2100, offer:true }
-            ]
-          }
-        ]
-      },
+  { section:'Verduras', subs: [
+      { title:'Hojas Verdes', products:[
+        {id:'espinaca', name:'Espinaca', desc:'Hojas frescas, buenas para ensaladas y salteados.', img:'https://cdn-prod.medicalnewstoday.com/content/images/articles/270/270609/spinach.jpg', priceKg:2500, offer:false},
+        {id:'lechuga', name:'Lechuga', desc:'Lechuga crujiente, ideal para ensaladas frescas.', img:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRPZz6jYc3rk3GWsZYaJT-KPGC_J6oxhdE5rg&s', priceKg:1800, offer:false},
+        {id:'kale', name:'Kale', desc:'Kale fresco, nutritivo y resistente para cocinar.', img:'https://cdn0.uncomo.com/es/posts/9/9/6/kale_que_es_propiedades_y_beneficios_53699_orig.jpg', priceKg:3500, offer:false},
+        {id:'acelga', name:'Acelga', desc:'Acelga tierna, perfecta para guisos y salteados.', img:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRDIWdo1oWOV9jpkl9DQKqD8xxq6iWcv9Wsfw&s', priceKg:2200, offer:false},
+        {id:'brocoli', name:'Brócoli', desc:'Brócoli fresco, excelente al vapor o salteado.', img:'https://www.vegetables.bayer.com/es/es-es/recursos/noticias/origen-y-usos-del-brocoli/_jcr_content/root/responsivegrid/responsivegrid/carousel/item_1626856275473.coreimg.jpeg/1626857498351/brocoli-seminis-esdsc0090.jpeg', priceKg:3000, offer:false}
+      ]},
+      { title:'Raíces', products:[
+        {id:'zanahoria', name:'Zanahoria', desc:'Zanahoria dulce, perfecta para cocinar o cruda.', img:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRuDSCnJl-LCQETAF6KT9bSOSMoRnZXRAxvvw&s', priceKg:2000, offer:false},
+        {id:'papa', name:'Papa', desc:'Papa versátil para purés, fritos o guisos.', img:'https://static01.nyt.com/images/2025/07/31/espanol/31HS-SCI-POTATO-01-hzcl-ES-copy1/31HS-SCI-POTATO-01-hzcl-articleLarge.jpg?quality=75&auto=webp&disable=upscale', priceKg:1500, offer:false},
+        {id:'remolacha', name:'Remolacha', desc:'Remolacha con sabor dulce, buena para ensaladas y jugos.', img:'https://images.unsplash.com/photo-1543779509-5b7d89c0f1f6?auto=format&fit=crop&w=480&q=60', priceKg:2300, offer:false},
+        {id:'yuca', name:'Yuca', desc:'Yuca tradicional, saciante y para muchas recetas.', img:'https://caracol.com.co/resizer/v2/OSR24JCLQZD6DNFAN3OESYKUWY.jpg?auth=9689db32fcea783573d6f7f5d1d48abd86d3dfd6a1dc6ef68421217e6cfb4a94&width=650&height=488&quality=70&smart=true', priceKg:1700, offer:false},
+        {id:'batata', name:'Batata', desc:'Batata dulce, ideal para asados y guisos.', img:'https://images.unsplash.com/photo-1524594154908-6b30d7d3f0c5?auto=format&fit=crop&w=480&q=60', priceKg:2100, offer:true}
+      ]}
+  ]},
 
-      {
-        sectionId: 'granos',
-        title: 'Granos & Legumbres',
-        subsections: [
-          {
-            id:'granos-leg', title:'Legumbres',
-            products:[
-              { id:'frijol-negro', name:'Fríjol Negro', desc:'Proteína vegetal.', img:'https://upload.wikimedia.org/wikipedia/commons/3/3f/Black_beans.jpg', priceKg:3500, offer:false },
-              { id:'lentejas', name:'Lentejas', desc:'Ricas y rápidas.', img:'https://upload.wikimedia.org/wikipedia/commons/6/6a/Lentejas.jpg', priceKg:3200, offer:false },
-              { id:'garbanzos', name:'Garbanzos', desc:'Perfectos para hummus.', img:'https://upload.wikimedia.org/wikipedia/commons/f/f0/Chickpeas.jpg', priceKg:3300, offer:false },
-              { id:'frijol-rojo', name:'Fríjol Rojo', desc:'Clásico de guisos.', img:'https://upload.wikimedia.org/wikipedia/commons/2/27/Red_kidney_beans.jpg', priceKg:3400, offer:false },
-              { id:'arveja', name:'Arveja', desc:'Versátil y dulce.', img:'https://upload.wikimedia.org/wikipedia/commons/d/d5/Peas_in_pods_-_Studio.jpg', priceKg:3100, offer:true }
-            ]
-          },
-          {
-            id:'granos-cere', title:'Cereales',
-            products:[
-              { id:'maiz', name:'Maíz', desc:'Básico y energético.', img:'https://upload.wikimedia.org/wikipedia/commons/5/5f/Maizekernels.jpg', priceKg:2200, offer:false },
-              { id:'arroz', name:'Arroz', desc:'Grano esencial.', img:'https://upload.wikimedia.org/wikipedia/commons/6/6f/Rice.jpg', priceKg:2000, offer:false },
-              { id:'avena', name:'Avena', desc:'Desayuno saludable.', img:'https://upload.wikimedia.org/wikipedia/commons/1/1c/Oats.jpg', priceKg:2800, offer:false },
-              { id:'cebada', name:'Cebada', desc:'Buen cereal.', img:'https://upload.wikimedia.org/wikipedia/commons/b/b2/Barley.jpg', priceKg:2600, offer:false },
-              { id:'quinoa', name:'Quinoa', desc:'Proteínas completas.', img:'https://upload.wikimedia.org/wikipedia/commons/e/e5/Quinoa.jpg', priceKg:4000, offer:false }
-            ]
-          }
-        ]
-      },
+  { section:'Granos', subs: [
+      { title:'Legumbres', products:[
+        {id:'frijol-negro', name:'Fríjol negro', desc:'Fríjol negro de buena cocción y sabor.', img:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQjjIPcPKnqcTRlfgP-JkazwN6U6nHYoxoTRg&s', priceKg:3500, offer:false},
+        {id:'lentejas', name:'Lentejas', desc:'Lentejas para guisos rápidos y nutritivos.', img:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTYiEQrXtuSjTevlmoTQctm43k65koSpSH-0w&s', priceKg:3200, offer:false},
+        {id:'garbanzos', name:'Garbanzos', desc:'Garbanzos ideales para hummus y guisos.', img:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSO_RukV_y_jboHtVSsa8FLc7LK6XhVDyiH-A&s', priceKg:3300, offer:false},
+        {id:'frijol-rojo', name:'Fríjol rojo', desc:'Fríjol rojo para potajes y guisos tradicionales.', img:'https://previews.123rf.com/images/anginta/anginta1611/anginta161101197/66713001-red-bean-seed-spoon-vegetable-nature-top-view-background.jpg', priceKg:3400, offer:false},
+        {id:'arveja', name:'Arveja', desc:'Arveja fresca, buena para sopas y acompañamientos.', img:'https://fenalce.co/wp-content/uploads/2021/10/Arveja.jpg', priceKg:3100, offer:true}
+      ]},
+      { title:'Cereales', products:[
+        {id:'maiz', name:'Maíz', desc:'Maíz seco o fresco según la receta que quieras preparar.', img:'https://humanidades.com/wp-content/uploads/2018/10/maiz-2-1-e1581908276964.jpg', priceKg:2200, offer:false},
+        {id:'arroz', name:'Arroz', desc:'Arroz de grano tradicional para acompañar todo tipo de platos.', img:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRIOjJ5oXaMX0nSGGIY9MJTi9bf_TdRN3G-w&s', priceKg:2000, offer:false},
+        {id:'avena', name:'Avena', desc:'Avena para desayunos y repostería saludable.', img:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5qLx_NH_ynJF6HD5uii_xdLfp60gPJOQbwA&s', priceKg:2800, offer:false},
+        {id:'cebada', name:'Cebada', desc:'Cebada para bebidas, guisos o como cereal.', img:'https://nutrimill.com/cdn/shop/articles/The_Benefits_of_Barley_Grain_and_Flour.png?v=1687291956&width=1500', priceKg:2600, offer:false},
+        {id:'quinoa', name:'Quinoa', desc:'Quinoa lista para ensaladas y platos nutritivos.', img:'https://www.promofarma.com/mag/uploads/attachments/quinoa_post1.jpg', priceKg:4000, offer:false}
+      ]}
+  ]},
 
-      {
-        sectionId:'ofertas', title:'Ofertas & Combos',
-        subsections:[
-          {
-            id:'ofertas-frutas', title:'Frutas en Promoción',
-            products:[
-              { id:'banano-oferta', name:'Banano (promo)', desc:'Oferta por volumen.', img:'https://upload.wikimedia.org/wikipedia/commons/1/15/Bananas.jpg', priceKg:1800, offer:true },
-              { id:'sandia', name:'Sandía', desc:'Rebajada por temporada.', img:'https://upload.wikimedia.org/wikipedia/commons/6/6d/Watermelon.jpg', priceKg:1500, offer:true },
-              { id:'aguacate', name:'Aguacate', desc:'Precio especial.', img:'https://upload.wikimedia.org/wikipedia/commons/d/d3/Avocado.jpg', priceKg:3500, offer:true },
-              { id:'pera', name:'Pera', desc:'Promo limitada.', img:'https://upload.wikimedia.org/wikipedia/commons/4/47/Pear.jpg', priceKg:2800, offer:false },
-              { id:'ciruela', name:'Ciruela', desc:'Dulce y jugosa.', img:'https://upload.wikimedia.org/wikipedia/commons/c/c7/Plums.jpg', priceKg:3000, offer:false }
-            ]
-          },
-          {
-            id:'ofertas-combos', title:'Combos',
-            products:[
-              { id:'canasta-frutas', name:'Canasta Frutas 5kg', desc:'Selección mixta.', img:'https://upload.wikimedia.org/wikipedia/commons/4/4c/Fruit_Basket.jpg', priceKg:3600, offer:false, isCombo:true },
-              { id:'combo-verduras', name:'Combo Verduras 5kg', desc:'Variedad fresca.', img:'https://upload.wikimedia.org/wikipedia/commons/d/d7/Vegetables.jpg', priceKg:3000, offer:false, isCombo:true },
-              { id:'combo-granos', name:'Combo Granos 3kg', desc:'Ahorro por compra.', img:'https://upload.wikimedia.org/wikipedia/commons/a/a0/LegumeMix.jpg', priceKg:4000, offer:false, isCombo:true },
-              { id:'saludable', name:'Pack Saludable', desc:'Frutas + Hortalizas.', img:'https://upload.wikimedia.org/wikipedia/commons/c/cd/HealthyFood.jpg', priceKg:5000, offer:false, isCombo:true },
-              { id:'canasta-mixta', name:'Canasta Mixta 10kg', desc:'Especial familiar.', img:'https://upload.wikimedia.org/wikipedia/commons/6/6b/MarketBasket.jpg', priceKg:3500, offer:false, isCombo:true }
-            ]
-          }
-        ]
-      }
-    ];
+  { section:'Ofertas', subs: [
+      { title:'Frutas en promoción', products:[
+        {id:'banano-of', name:'Banano (promo)', desc:'Oferta por volumen: bananos dulces a buen precio.', img:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQDz3SN515G6d6mIZw5fr8KejrFKgEPlAgCuw&s', priceKg:1800, offer:true},
+        {id:'sandia', name:'Sandía', desc:'Sandía jugosa para compartir.', img:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTl3_vQd9ZraARWk3uNaA-k_ajQdsqjZt6-QA&s', priceKg:1500, offer:true},
+        {id:'aguacate', name:'Aguacate', desc:'Aguacates cremosos para arepas, ensaladas y salsas.', img:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR1Wa_7BJINzSAHGlJjiYk1U3xA2CbmmxEIvA&s', priceKg:3500, offer:true},
+        {id:'pera', name:'Pera', desc:'Pera dulce y jugosa, buen bocado para la tarde.', img:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ4PxR2Hj_FGetrt36jKKOE6fqoWQHf1VpLow&s', priceKg:2800, offer:false},
+        {id:'ciruela', name:'Ciruela', desc:'Ciruela fresca para postres o snacks.', img:'https://www.maga.gob.gt/wp-content/uploads/2024/11/La-ciruela-es-una-fruta-de-clima-templado-y-subtropical1-1200x800.jpeg', priceKg:3000, offer:false}
+      ]},
+      { title:'Combos', products:[
+        {id:'canasta-5kg', name:'Canasta Frutas 5kg', desc:'Selección mixta pensada para familia pequeña.', img:'https://images.unsplash.com/photo-1528825871115-3581a5387919?auto=format&fit=crop&w=480&q=60', priceKg:3600, offer:false, combo:true},
+        {id:'combo-verd-5kg', name:'Combo Verduras 5kg', desc:'Variedad de verduras listas para cocinar.', img:'https://images.unsplash.com/photo-1512058564366-c9e3b3b2d9e9?auto=format&fit=crop&w=480&q=60', priceKg:3000, offer:false, combo:true},
+        {id:'combo-granos', name:'Combo Granos 3kg', desc:'Mezcla de granos para ahorrar y surtir la despensa.', img:'https://images.unsplash.com/photo-1559056199-641d2f40c7a6?auto=format&fit=crop&w=480&q=60', priceKg:4000, offer:false, combo:true},
+        {id:'pack-salud', name:'Pack Saludable', desc:'Frutas y verduras seleccionadas para una semana saludable.', img:'https://images.unsplash.com/photo-1504754524776-8f4f37790ca0?auto=format&fit=crop&w=480&q=60', priceKg:5000, offer:false, combo:true},
+        {id:'canasta-10kg', name:'Canasta Mixta 10kg', desc:'Canasta grande ideal para familias o eventos pequeños.', img:'https://images.unsplash.com/photo-1498837167922-ddd27525d352?auto=format&fit=crop&w=480&q=60', priceKg:3500, offer:false, combo:true}
+      ]}
+  ]}
+];
 
-    /***********************
-     * State
-     ***********************/
-    const STORAGE_KEY = 'fruver_cart_v2';
-    const REVIEWS_KEY = 'fruver_reviews_v2';
-    let cart = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
-    let reviews = JSON.parse(localStorage.getItem(REVIEWS_KEY) || '["Excelente calidad y frescura.","Entrega muy puntual.","Productos con muy buena presentación."]');
+/* ===== State & storage ===== */
+const CART_KEY = 'fruver_cart_cop_final_v2';
+const REV_KEY = 'fruver_reviews_cop_final_v2';
+let cart = JSON.parse(localStorage.getItem(CART_KEY) || '[]');
+let reviews = JSON.parse(localStorage.getItem(REV_KEY) || '["Excelente calidad y frescura.","Entrega rápida y puntual.","Muy buena presentación de los productos."]');
 
-    /***********************
-     * Helpers
-     ***********************/
-    function formatMoney(n){
-      return Number(n).toLocaleString('es-CO');
-    }
-    function lbPriceFromKg(kgPrice){ // precio por libra = precio_kg * 0.453592...
-      return Math.round(kgPrice * 0.453592);
-    }
-    function kgFromInput(weight, unit){
-      const w = Number(weight) || 0;
-      if(unit === 'kg') return w;
-      return w * 0.453592;
-    }
+/* ===== Helpers ===== */
+function fmt(n){ return Number(n).toLocaleString('es-CO'); }
+function lbFromKg(kg){ return Math.round(kg * 0.453592); }
+function kgFrom(weight, unit){ const w = Number(weight) || 0; return unit === 'kg' ? w : w * 0.453592; }
 
-    /***********************
-     * Render catalog dynamically
-     ***********************/
-    function renderCatalog(){
-      const container = document.getElementById('catalogo');
-      container.innerHTML = ''; // clear
-      DATA.forEach(section => {
-        // section title block
-        const secWrap = document.createElement('div');
-        secWrap.className = 'section-block';
-        const secTitle = document.createElement('div');
-        secTitle.className = 'subsection';
-        const h3 = document.createElement('h3');
-        h3.textContent = section.title;
-        h3.style.fontSize = '18px';
-        h3.style.marginBottom = '8px';
-        secTitle.appendChild(h3);
+/* ===== Render catalog ===== */
+function renderCatalog(){
+  const root = document.getElementById('catalog');
+  root.innerHTML = '';
+  DATA.forEach(section => {
+    const block = document.createElement('div'); block.className = 'section-block';
+    const title = document.createElement('div'); title.className = 'section-title';
+    const h3 = document.createElement('h3'); h3.textContent = section.section;
+    title.appendChild(h3);
+    block.appendChild(title);
 
-        // each subsection
-        section.subsections.forEach(sub => {
-          const subEl = document.createElement('div');
-          subEl.className = 'subsection';
-          const subtitle = document.createElement('h3');
-          subtitle.innerHTML = (sub.title) ? `🍃 ${sub.title}` : sub.title;
-          subEl.appendChild(subtitle);
+    section.subs.forEach(sub => {
+      const subWrap = document.createElement('div'); subWrap.className = 'subsection';
+      const subhead = document.createElement('div'); subhead.className = 'subhead';
+      const sh = document.createElement('h4'); sh.textContent = sub.title;
+      const note = document.createElement('div'); note.className = 'note'; note.textContent = 'Precio por Kg y por Lb — ingresa la cantidad según la unidad seleccionada.';
+      subhead.appendChild(sh); subhead.appendChild(note);
+      subWrap.appendChild(subhead);
 
-          const hint = document.createElement('div');
-          hint.className = 'hint';
-          hint.textContent = 'Precio por Kg y por Lb. Ingresa la cantidad en la unidad seleccionada arriba.';
-          subEl.appendChild(hint);
+      const grid = document.createElement('div'); grid.className = 'grid';
 
-          const grid = document.createElement('div');
-          grid.className = 'grid-products';
+      sub.products.forEach(p => {
+        const card = document.createElement('article'); card.className = 'card';
+        if(p.offer){
+          const r = document.createElement('div'); r.className = 'ribbon'; r.textContent = 'OFERTA'; card.appendChild(r);
+        }
 
-          sub.products.forEach(p => {
-            const card = document.createElement('article');
-            card.className = 'card';
-            // ribbon for offers
-            if(p.offer){
-              const r = document.createElement('div'); r.className = 'ribbon'; r.textContent='OFERTA';
-              card.appendChild(r);
-            }
+        const media = document.createElement('div'); media.className = 'media';
+        const img = document.createElement('img'); img.src = p.img; img.alt = p.name + ' - imagen';
+        // fallback: si imagen falla, mostrar placeholder local data URI (muy ligero)
+        img.onerror = function(){ this.src = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="480" height="320"><rect width="100%" height="100%" fill="%230e1412"/><text x="50%" y="50%" fill="%23ffffff" font-size="18" text-anchor="middle" dy=".3em">Imagen no disponible</text></svg>'; };
+        media.appendChild(img);
 
-            const media = document.createElement('div'); media.className='media';
-            const img = document.createElement('img'); img.src = p.img; img.alt = p.name;
-            media.appendChild(img);
+        const title = document.createElement('h5'); title.textContent = p.name;
+        const desc = document.createElement('p'); desc.className = 'desc'; desc.textContent = p.desc;
+        const price = document.createElement('div'); price.className = 'price';
+        price.innerHTML = `$${fmt(p.priceKg)} / Kg <small>| $${fmt(lbFromKg(p.priceKg))} / Lb</small>`;
 
-            const title = document.createElement('h4'); title.textContent = p.name;
-            const desc = document.createElement('p'); desc.className='desc'; desc.textContent = p.desc;
+        const controls = document.createElement('div'); controls.className = 'controls-row';
+        const input = document.createElement('input'); input.type='number'; input.min='0.1'; input.step='0.1';
+        input.value = p.combo ? 1 : 0.5; input.id = `w_${p.id}`;
+        const btn = document.createElement('button'); btn.className='add-btn'; btn.textContent = 'Agregar';
+        btn.onclick = () => {
+          const unit = document.getElementById('unit-select').value;
+          const value = Number(document.getElementById(input.id).value);
+          addToCart(p, value, unit);
+        };
 
-            const priceRow = document.createElement('div'); priceRow.className='price-row';
-            const price = document.createElement('div'); price.className='price';
-            price.innerHTML = `$${formatMoney(p.priceKg)} / Kg`;
-            const small = document.createElement('small');
-            small.textContent = `| $${formatMoney(lbPriceFromKg(p.priceKg))} / Lb`;
-            price.appendChild(small);
-            priceRow.appendChild(price);
+        controls.appendChild(input); controls.appendChild(btn);
 
-            // controls
-            const controls = document.createElement('div'); controls.className='controls';
-            const input = document.createElement('input');
-            input.type = 'number'; input.min='0.1'; input.step='0.1';
-            input.value = p.isCombo ? 1 : 0.5; // combos default 1 (represent weight placeholder)
-            input.title = `Peso para ${p.name}`;
-            input.id = `w_${p.id}`; // unique id
-            const btn = document.createElement('button');
-            btn.className='btn-add';
-            btn.textContent = 'Agregar';
-            btn.onclick = () => {
-              const unit = document.getElementById('unit-select').value;
-              const value = Number(document.getElementById(input.id).value);
-              addToCart(p, value, unit);
-            };
-
-            controls.appendChild(input);
-            controls.appendChild(btn);
-
-            card.appendChild(media);
-            card.appendChild(title);
-            card.appendChild(desc);
-            card.appendChild(priceRow);
-            card.appendChild(controls);
-
-            grid.appendChild(card);
-          });
-
-          subEl.appendChild(grid);
-          secTitle.appendChild(subEl);
-        });
-
-        container.appendChild(secTitle);
-      });
-    }
-
-    /***********************
-     * Cart functions
-     ***********************/
-    function persistCart(){
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(cart));
-    }
-
-    function addToCart(product, weight, unit){
-      if(!weight || weight <= 0){
-        alert('Ingresa un peso válido.');
-        return;
-      }
-      // convert weight to kg for pricing calculation
-      const weightKg = kgFromInput(weight, unit);
-      const subtotal = Math.round(weightKg * product.priceKg);
-      // store item
-      const item = {
-        id: product.id,
-        name: product.name,
-        img: product.img,
-        weightEntered: weight,
-        unitEntered: unit,
-        weightKg,
-        pricePerKg: product.priceKg,
-        subtotal
-      };
-      cart.push(item);
-      persistCart();
-      renderCart();
-      showToast(`${product.name} agregado`);
-    }
-
-    function removeCartItem(index){
-      cart.splice(index,1);
-      persistCart();
-      renderCart();
-    }
-
-    function clearCart(){
-      if(!confirm('¿Vaciar carrito?')) return;
-      cart = [];
-      persistCart();
-      renderCart();
-    }
-
-    function calcTotal(){
-      return cart.reduce((s,i)=>s + (i.subtotal||0), 0);
-    }
-
-    function renderCart(){
-      const list = document.getElementById('cart-list');
-      list.innerHTML = '';
-      if(cart.length === 0){
-        const empty = document.createElement('div');
-        empty.style.color = 'var(--muted)';
-        empty.style.padding = '10px';
-        empty.textContent = 'Tu carrito está vacío.';
-        list.appendChild(empty);
-      } else {
-        cart.forEach((it, idx) => {
-          const li = document.createElement('li');
-          li.className = 'cart-item';
-          const img = document.createElement('img'); img.src = it.img; img.alt = it.name;
-          const meta = document.createElement('div'); meta.className = 'meta';
-          meta.innerHTML = `<b>${it.name}</b><small>${it.weightEntered} ${it.unitEntered} • $${formatMoney(it.subtotal)}</small>`;
-          const btn = document.createElement('button'); btn.className='btn-secondary'; btn.textContent='Eliminar';
-          btn.onclick = ()=> removeCartItem(idx);
-          li.appendChild(img); li.appendChild(meta); li.appendChild(btn);
-          list.appendChild(li);
-        });
-      }
-      document.getElementById('cart-count').textContent = cart.length;
-      document.getElementById('cart-total').textContent = '$' + formatMoney(calcTotal());
-    }
-
-    /***********************
-     * Pay modal
-     ***********************/
-    function openPayModal(){
-      if(cart.length === 0){
-        alert('El carrito está vacío.');
-        return;
-      }
-      const total = calcTotal();
-      document.getElementById('modal-title').textContent = '¡Pago exitoso!';
-      document.getElementById('modal-body').textContent = `Total pagado: $${formatMoney(total)} — Gracias por tu compra.`;
-      document.getElementById('modal-pay').style.display = 'flex';
-      // empty cart after payment
-      cart = [];
-      persistCart();
-      renderCart();
-    }
-    function closePayModal(){
-      document.getElementById('modal-pay').style.display = 'none';
-    }
-
-    /***********************
-     * Reviews & Contact
-     ***********************/
-    function renderReviews(){
-      const ul = document.getElementById('reviews-list');
-      ul.innerHTML = '';
-      reviews.forEach(r => {
-        const li = document.createElement('li'); li.className='review';
-        li.innerHTML = `<strong>⭐</strong> <span style="margin-left:8px">${r}</span>`;
-        ul.appendChild(li);
-      });
-    }
-    function addReview(){
-      const input = document.getElementById('new-review');
-      const text = input.value.trim();
-      if(!text) return;
-      reviews.unshift(text); // newest first
-      localStorage.setItem(REVIEWS_KEY, JSON.stringify(reviews));
-      input.value = '';
-      renderReviews();
-    }
-
-    function handleContact(e){
-      e.preventDefault();
-      const name = document.getElementById('c-name').value.trim();
-      const email = document.getElementById('c-email').value.trim();
-      const msg = document.getElementById('c-msg').value.trim();
-      if(!name || !email || !msg){ alert('Completa todos los campos'); return; }
-      // simulate send
-      document.getElementById('contact-ok').style.display = 'block';
-      setTimeout(()=> document.getElementById('contact-ok').style.display = 'none', 3000);
-      e.target.reset();
-    }
-
-    /***********************
-     * Small UI helpers
-     ***********************/
-    let toastTimer = null;
-    function showToast(text){
-      // transient non-blocking small toast at bottom-right
-      let el = document.getElementById('__toast');
-      if(!el){
-        el = document.createElement('div');
-        el.id='__toast';
-        Object.assign(el.style,{position:'fixed',right:'18px',bottom:'18px',background:'#081',color:'#fff',padding:'10px 14px',borderRadius:'12px',boxShadow:'0 8px 24px rgba(0,0,0,0.18)',fontWeight:700,zIndex:9999,opacity:0,transform:'translateY(10px)',transition:'all .32s'});
-        document.body.appendChild(el);
-      }
-      el.textContent = text;
-      el.style.opacity = 1; el.style.transform='translateY(0)';
-      if(toastTimer) clearTimeout(toastTimer);
-      toastTimer = setTimeout(()=>{ el.style.opacity=0; el.style.transform='translateY(10px)'; },1500);
-    }
-
-    /***********************
-     * Init
-     ***********************/
-    document.addEventListener('DOMContentLoaded', ()=>{
-      // render catalog
-      renderCatalog();
-      // initial UI
-      document.getElementById('unit-select').addEventListener('change', (e)=>{
-        document.getElementById('current-unit').textContent = (e.target.value === 'kg') ? 'Kg' : 'Lb';
+        card.appendChild(media); card.appendChild(title); card.appendChild(desc); card.appendChild(price); card.appendChild(controls);
+        grid.appendChild(card);
       });
 
-      // attach cart actions
-      document.getElementById('pay-btn').addEventListener('click', openPayModal);
-      document.getElementById('clear-btn').addEventListener('click', clearCart);
-      document.getElementById('modal-close').addEventListener('click', closePayModal);
-      document.getElementById('modal-pay').addEventListener('click', (ev)=>{ if(ev.target.id === 'modal-pay') closePayModal(); });
-
-      // reviews & contact
-      renderReviews();
-      document.getElementById('add-review').addEventListener('click', addReview);
-      document.getElementById('contact-form').addEventListener('submit', handleContact);
-      document.getElementById('contact-clear').addEventListener('click', ()=> document.getElementById('contact-form').reset());
-
-      // render cart from storage
-      renderCart();
+      subWrap.appendChild(grid);
+      block.appendChild(subWrap);
     });
 
-    // Expose some functions for console / testing
-    window.mostrarSeccion = function(){ alert('Para navegar usa el catálogo: selecciona la sección arriba.'); };
-    // The header button "Catálogo" calls mostrarSeccion('catalogo') - we simply scroll the catalog into view:
-    document.querySelectorAll('.btn-ghost').forEach(b=> b.addEventListener('click', ()=> {
-      document.getElementById('catalogo').scrollIntoView({behavior:'smooth'});
-    }));
-  </script>
+    root.appendChild(block);
+  });
+}
+
+/* ===== Cart functions ===== */
+function persistCart(){ localStorage.setItem(CART_KEY, JSON.stringify(cart)); }
+function persistReviews(){ localStorage.setItem(REV_KEY, JSON.stringify(reviews)); }
+
+function addToCart(product, enteredWeight, unit){
+  if(!enteredWeight || enteredWeight <= 0){ alert('Ingresa un peso válido.'); return; }
+  const weightKg = kgFrom(enteredWeight, unit);
+  const subtotal = Math.round(weightKg * product.priceKg);
+  const item = {
+    id: product.id + '_' + Date.now(),
+    productId: product.id,
+    name: product.name,
+    img: product.img,
+    enteredWeight,
+    unit,
+    weightKg,
+    pricePerKg: product.priceKg,
+    subtotal
+  };
+  cart.push(item);
+  persistCart();
+  renderCart();
+  showToast(`${product.name} agregado`);
+}
+
+function removeItem(index){
+  cart.splice(index,1);
+  persistCart();
+  renderCart();
+}
+function clearCart(){
+  if(!confirm('¿Vaciar carrito?')) return;
+  cart = [];
+  persistCart();
+  renderCart();
+}
+function totalAmount(){ return cart.reduce((s,i)=>s + (i.subtotal||0), 0); }
+
+function renderCart(){
+  const list = document.getElementById('cart-list');
+  list.innerHTML = '';
+  if(cart.length === 0){
+    const empty = document.createElement('div'); empty.style.color = 'var(--muted)'; empty.textContent = 'Carrito vacío — agrega productos';
+    list.appendChild(empty);
+  } else {
+    cart.forEach((it, idx) => {
+      const li = document.createElement('li'); li.className = 'cart-item';
+      const img = document.createElement('img'); img.src = it.img; img.alt = it.name;
+      img.onerror = function(){ this.src = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="60" height="60"><rect width="100%" height="100%" fill="%230e1412"/><text x="50%" y="50%" fill="%23ffffff" font-size="10" text-anchor="middle" dy=".3em">no</text></svg>'; };
+      const meta = document.createElement('div'); meta.className = 'meta';
+      meta.innerHTML = `<b>${it.name}</b><small>${it.enteredWeight} ${it.unit} • $${fmt(it.subtotal)}</small>`;
+      const btn = document.createElement('button'); btn.className = 'btn-secondary'; btn.textContent = 'Eliminar';
+      btn.onclick = () => removeItem(idx);
+      li.appendChild(img); li.appendChild(meta); li.appendChild(btn);
+      list.appendChild(li);
+    });
+  }
+  document.getElementById('cart-count').textContent = cart.length;
+  document.getElementById('cart-total').textContent = '$' + fmt(totalAmount());
+}
+
+/* ===== Payment modal ===== */
+function openPaymentModal(){
+  if(cart.length === 0){ alert('Tu carrito está vacío'); return; }
+  const total = totalAmount();
+  document.getElementById('modal-title').textContent = '¡Pago exitoso!';
+  document.getElementById('modal-text').textContent = `Total pagado: $${fmt(total)} — Muchas gracias por tu compra.`;
+  const modal = document.getElementById('modal');
+  const card = document.getElementById('modal-card');
+  modal.style.display = 'flex';
+  setTimeout(()=> card.classList.add('show'), 10);
+  // vaciar carrito después de pago
+  cart = [];
+  persistCart();
+  renderCart();
+}
+function closePaymentModal(){
+  const modal = document.getElementById('modal');
+  const card = document.getElementById('modal-card');
+  card.classList.remove('show');
+  setTimeout(()=> modal.style.display = 'none', 260);
+}
+
+/* ===== Reviews & Contact ===== */
+function renderReviews(){
+  const ul = document.getElementById('reviews-list'); ul.innerHTML = '';
+  reviews.forEach(r => {
+    const li = document.createElement('li'); li.className = 'review';
+    li.innerHTML = `<strong>⭐</strong> <span style="margin-left:8px">${r}</span>`;
+    ul.appendChild(li);
+  });
+}
+function addReview(){
+  const input = document.getElementById('new-review');
+  const txt = input.value.trim();
+  if(!txt) return;
+  reviews.unshift(txt);
+  persistReviews();
+  input.value = '';
+  renderReviews();
+}
+function handleContact(e){
+  e.preventDefault();
+  const name = document.getElementById('c-name').value.trim();
+  const email = document.getElementById('c-email').value.trim();
+  const msg = document.getElementById('c-msg').value.trim();
+  if(!name || !email || !msg){ alert('Completa todos los campos'); return; }
+  document.getElementById('contact-ok').style.display = 'block';
+  setTimeout(()=> document.getElementById('contact-ok').style.display = 'none', 3000);
+  e.target.reset();
+}
+
+/* ===== Toast ===== */
+let toastTimer = null;
+function showToast(text){
+  let el = document.getElementById('__toast');
+  if(!el){
+    el = document.createElement('div'); el.id='__toast';
+    Object.assign(el.style,{position:'fixed',right:'18px',bottom:'18px',padding:'10px 14px',borderRadius:'10px',background:'linear-gradient(90deg,var(--accent-1),var(--accent-2))',color:'#07110d',fontWeight:800,boxShadow:'0 12px 40px rgba(0,0,0,0.6)',zIndex:99999,opacity:0,transform:'translateY(10px)',transition:'all .26s'});
+    document.body.appendChild(el);
+  }
+  el.textContent = text; el.style.opacity = 1; el.style.transform='translateY(0)';
+  if(toastTimer) clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=>{ el.style.opacity = 0; el.style.transform='translateY(10px)'; },1400);
+}
+
+/* ===== Init ===== */
+document.addEventListener('DOMContentLoaded', ()=>{
+  renderCatalog();
+  renderCart();
+  renderReviews();
+
+  document.getElementById('unit-select').addEventListener('change', ()=>{ /* unidad leída al agregar */ });
+  document.getElementById('pay-button').addEventListener('click', openPaymentModal);
+  document.getElementById('clear-button').addEventListener('click', clearCart);
+  document.getElementById('modal-close').addEventListener('click', closePaymentModal);
+  document.getElementById('modal').addEventListener('click', (e)=>{ if(e.target.id==='modal') closePaymentModal(); });
+
+  document.getElementById('btn-add-review').addEventListener('click', addReview);
+  document.getElementById('contact-form').addEventListener('submit', handleContact);
+  document.getElementById('contact-clear').addEventListener('click', ()=> document.getElementById('contact-form').reset());
+
+  document.getElementById('scroll-catalog').addEventListener('click', ()=> document.getElementById('catalog').scrollIntoView({behavior:'smooth'}));
+});
+</script>
 </body>
 </html>
